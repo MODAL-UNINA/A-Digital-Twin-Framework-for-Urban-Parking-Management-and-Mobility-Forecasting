@@ -13,8 +13,8 @@ import argparse
 from pathlib import Path
 from utils.models import Modelcomplete
 from utils.utils import split, create_datasets, normalize_distance_matrix, haversine_matrix
-from data_processing.generate_main_data import generate_hourly_transactions, generate_road_data, preprocess_sensor_data
-from data_processing.generate_external_data import download_meteo, generate_events, generate_poi
+from data_processing.mobility_data_processing import generate_hourly_transactions, generate_road_data, preprocess_sensor_data
+from data_processing.exogenous_data_processing import download_meteo, generate_events, generate_poi
 
 parser = argparse.ArgumentParser(allow_abbrev=False)
 
