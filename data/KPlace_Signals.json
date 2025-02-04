@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1426276,
+        "dev_id": "070002792560",
+        "evts": "{\"batt\":\"good\",\"ir\":\"good\",\"magn\":\"good\",\"seq\":0,\"slot\":\"empty\",\"type\":\"info_evt\"}",
+        "type": "info_evt",
+        "status_change": 1,
+        "occupied": 0,
+        "datetime_DB": "2024-06-10 21:12:00",
+        "datetime": "2024-06-10 21:11:58",
+        "date": "2024-06-10",
+        "time_of_day": "19-24",
+        "week_day": "WD",
+        "day": "Mon",
+        "first_busy": 0,
+        "empty_after_busy": 1,
+        "delta_sec_busy": 7935
+    }
+]
