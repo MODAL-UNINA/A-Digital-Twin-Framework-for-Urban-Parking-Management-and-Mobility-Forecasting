@@ -1,0 +1,597 @@
+{
+    "725bfcc9-b8b6-445f-9960-ce60e4ac45c5": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        }
+    },
+    "64eaaec8-f761-4eb5-af33-d08a09e7c635": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        }
+    },
+    "1c8f9aac-104a-47f5-95b9-e4a8edc53d52": {
+        "Monday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "Tuesday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "Wednesday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "Thursday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "Friday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "Saturday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "Sunday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        }
+    },
+    "ecc360da-41e9-4165-81df-ffa63a899aed": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b",
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "Wednesday": {
+            "morning": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ],
+            "evening": []
+        }
+    },
+    "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ],
+            "evening": []
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ],
+            "evening": []
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ],
+            "evening": []
+        }
+    },
+    "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c",
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        }
+    },
+    "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b": {
+        "Monday": {
+            "morning": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "afternoon": [],
+            "evening": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "Tuesday": {
+            "morning": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "afternoon": [],
+            "evening": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "Wednesday": {
+            "morning": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "afternoon": [],
+            "evening": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "Thursday": {
+            "morning": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "afternoon": [],
+            "evening": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "Friday": {
+            "morning": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "afternoon": [],
+            "evening": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "Saturday": {
+            "morning": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "afternoon": [],
+            "evening": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "Sunday": {
+            "morning": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "afternoon": [],
+            "evening": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        }
+    },
+    "3b36764d-f9d1-4dac-9c53-05c02c438a0f": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        }
+    },
+    "948e7aa0-de04-432c-9896-5afb57e21e37": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c",
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75",
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        }
+    },
+    "7cfc7fab-cf0f-4644-bb4f-c170e0624d88": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        }
+    },
+    "daf81c44-3018-4668-9de1-ae88b85c5d39": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ],
+            "evening": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ],
+            "evening": []
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ],
+            "evening": []
+        }
+    },
+    "94b634f2-87b9-4a8b-82cb-c1c28361e25c": {
+        "Monday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Tuesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635",
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75",
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "Wednesday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635",
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "Thursday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Friday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Saturday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        },
+        "Sunday": {
+            "morning": [],
+            "afternoon": [],
+            "evening": []
+        }
+    }
+}
