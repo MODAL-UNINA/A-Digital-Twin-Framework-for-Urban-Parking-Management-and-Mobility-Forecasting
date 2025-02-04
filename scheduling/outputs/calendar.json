@@ -1,0 +1,1211 @@
+{
+    "2025-01-20": {
+        "1855": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "6854": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "6629": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "1620": {
+            "start": 8,
+            "end": 12,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "5102": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "2965": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "6678": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "5890": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "3677": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "4874": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "1749": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "7287": {
+            "start": 8,
+            "end": 12,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "6206": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "4859": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "2248": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "3022": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "5212": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "6780": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "6767": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "3567": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "8657": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "7304": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "8782": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "4085": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "6667": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        }
+    },
+    "2025-01-21": {
+        "7150": {
+            "start": 10,
+            "end": 14,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "6854": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "5890": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "2965": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "7287": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "3677": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "6780": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "1749": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "1855": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "2223": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "4874": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "3567": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "6206": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "5102": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "2248": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75",
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "8782": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "5212": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635",
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "8657": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "6767": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "9861": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "7304": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "4085": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "1620": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        }
+    },
+    "2025-01-22": {
+        "1855": {
+            "start": 8,
+            "end": 12,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "2223": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5",
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "7150": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "6206": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "1620": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "6678": {
+            "start": 8,
+            "end": 12,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "5890": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "3677": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "4874": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "1749": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "3022": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "7287": {
+            "start": 8,
+            "end": 12,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "3567": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "4859": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "6629": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75",
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "8657": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "6854": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "9861": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "2248": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "6767": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "6667": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        }
+    },
+    "2025-01-23": {
+        "6629": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "1749": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "7150": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "2965": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "3022": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "2223": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "6678": {
+            "start": 8,
+            "end": 12,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "5890": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "3677": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "1855": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "6780": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "4874": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "6206": {
+            "start": 8,
+            "end": 12,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "7287": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "4859": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "2248": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "5212": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "8782": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "8657": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "9861": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "6767": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "5102": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "4085": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "7304": {
+            "start": 17,
+            "end": 21,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "1620": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "6667": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        }
+    },
+    "2025-01-24": {
+        "4859": {
+            "start": 10,
+            "end": 14,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "7150": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "5102": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "1855": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "5890": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "6780": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "6678": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "2965": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "3677": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "1749": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "3022": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "8782": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "2223": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "3567": {
+            "start": 10,
+            "end": 14,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "6206": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "6629": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "5212": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "9861": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "7304": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "7287": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "6854": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "1620": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "6667": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "4085": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        }
+    },
+    "2025-01-25": {
+        "6629": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "4859": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "7150": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "6206": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "3677": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "2965": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "6780": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "6678": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "4085": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "4874": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "7304": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "2223": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "dcbba5b4-6d7f-46b7-8d1d-2c0517f72e75"
+            ]
+        },
+        "3022": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "6667": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "9861": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "5212": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "2248": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "6854": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "8657": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "3567": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "5102": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "8782": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "6767": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        }
+    },
+    "2025-01-26": {
+        "1620": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "4859": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "1749": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "725bfcc9-b8b6-445f-9960-ce60e4ac45c5"
+            ]
+        },
+        "7150": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "6a719f5c-a0db-4fa8-ac80-b802c7af9bc3"
+            ]
+        },
+        "3567": {
+            "start": 12,
+            "end": 17,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52"
+            ]
+        },
+        "6780": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "1c8f9aac-104a-47f5-95b9-e4a8edc53d52",
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "1855": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "2223": {
+            "start": 12,
+            "end": 16,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed",
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "3022": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "ecc360da-41e9-4165-81df-ffa63a899aed"
+            ]
+        },
+        "7287": {
+            "start": 8,
+            "end": 13,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "5890": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "8782": {
+            "start": 20,
+            "end": 24,
+            "zone": [
+                "daf81c44-3018-4668-9de1-ae88b85c5d39"
+            ]
+        },
+        "4085": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "64eaaec8-f761-4eb5-af33-d08a09e7c635"
+            ]
+        },
+        "8657": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "e94e69e0-b2c9-49f7-ac3c-b8a5ca6f713b"
+            ]
+        },
+        "6678": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "5212": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "2248": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "3b36764d-f9d1-4dac-9c53-05c02c438a0f"
+            ]
+        },
+        "9861": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "6854": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "5102": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "948e7aa0-de04-432c-9896-5afb57e21e37"
+            ]
+        },
+        "6629": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "7304": {
+            "start": 16,
+            "end": 20,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "4874": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "7cfc7fab-cf0f-4644-bb4f-c170e0624d88"
+            ]
+        },
+        "6667": {
+            "start": 9,
+            "end": 14,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "6767": {
+            "start": 16,
+            "end": 21,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        },
+        "2965": {
+            "start": 19,
+            "end": 24,
+            "zone": [
+                "94b634f2-87b9-4a8b-82cb-c1c28361e25c"
+            ]
+        }
+    }
+}
