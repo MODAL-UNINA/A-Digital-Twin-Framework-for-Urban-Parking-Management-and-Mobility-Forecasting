@@ -1,0 +1,16 @@
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - geopandas=0.14
+  - pandas<2
+  - pip=24.3
+  - pymannkendall=1.4
+  - pytorch=2.5
+  - pytorch-cuda=12.1
+  - requests-cache=1.2
+  - torchvision=0.20
+  - torchaudio=2.5
