@@ -31,8 +31,7 @@ conda activate <your_environment_name>
 ```
 
 ### 2. Scheduling Execution
-
-### Requirements  
+ 
 Ensure that the following tools are installed:  
 - **7-Zip**: Required to extract project files.  
   - On Windows: Download from [https://www.7-zip.org/](https://www.7-zip.org/)  
