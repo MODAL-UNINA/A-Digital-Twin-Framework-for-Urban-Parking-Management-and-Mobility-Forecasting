@@ -39,7 +39,7 @@ Ensure that the following tools are installed:
 - **HiGHS version 1.7**: Must be installed in the `scheduling` directory.  
   - If not already available, download it from [HiGHS GitHub](https://github.com/ERGO-Code/HiGHS)  
 
-### Execution Instructions  
+#### Execution Instructions  
 1. Extract the main archive using 7-Zip:  
    ```sh
    7z x main_zip/main.7z.001 -o"./"
