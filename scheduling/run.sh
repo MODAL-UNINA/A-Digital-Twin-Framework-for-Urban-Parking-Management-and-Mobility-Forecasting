@@ -16,8 +16,8 @@ show_help() {
     echo "  -e <end_date>                   End date for the statistics (YYYY-MM-DD)."
     echo ""
     echo "Optional arguments:"
-    echo "  --outputs-dir <path>            Directory for output results. Default: outputs."
-    echo "  --inputs-dir <path>             Directory for input files. Default: inputs."
+    echo "  -o <path>            Directory for output results. Default: outputs."
+    echo "  -i <path>             Directory for input files. Default: inputs."
     echo ""
 }
 
@@ -56,14 +56,6 @@ if [ ${#missing_params[@]} -ne 0 ]; then
     done
     show_help
     exit 1
-fi
-
-if ls main_zip/main.7z.001 1> /dev/null 2>&1; then
-    echo "Compressed files found, starting extraction..."
-    7z x main_zip/main.7z.001 -o"./" || { echo " Error during extraction of main.7z"; exit 1; }
-    echo " Extraction completed!"
-else
-    echo "No main.7z file found, proceeding with execution."
 fi
 
 # run the main program
