@@ -18,7 +18,7 @@ from data_processing.exogenous_data_processing import download_meteo, generate_e
 
 parser = argparse.ArgumentParser(allow_abbrev=False)
 
-# ARGS PER TRANSACTIONS
+# ARGS FOR TRANSACTIONS
 parser.add_argument('--data_type', type=str, default='transactions')
 parser.add_argument('--target_channel', type=int, default=0)
 parser.add_argument('--input_length', type=int, default=24 * 7 * 4)
@@ -42,7 +42,7 @@ parser.add_argument('--num_poi_types', type=int, default=7)
 parser.add_argument('--num_epochs', type=int, default=1000)
 parser.add_argument('--train_percentage', type=float, default=0.9)
 
-# # ARGS PER AMOUNT
+# # ARGS FOR AMOUNT
 # parser.add_argument('--data_type', type=str, default='amount')
 # parser.add_argument('--target_channel', type=int, default=0)
 # parser.add_argument('--input_length', type=int, default=24 * 7 * 4)
@@ -67,7 +67,7 @@ parser.add_argument('--train_percentage', type=float, default=0.9)
 # parser.add_argument('--train_percentage', type=float, default=0.9)
 
 
-# # ARGS PER ROADS
+# # ARGS FOR ROADS
 # parser.add_argument('--data_type', type=str, default='roads')
 # parser.add_argument('--target_channel', type=int, default=0)
 # parser.add_argument('--input_length', type=int, default=24 * 7 * 3)
