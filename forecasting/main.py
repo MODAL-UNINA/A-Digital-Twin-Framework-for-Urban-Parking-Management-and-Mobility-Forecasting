@@ -292,7 +292,7 @@ if __name__ == "__main__":
 
     args, _ = parser.parse_known_args()
 
-    data_dir = Path("data")
+    data_dir = Path("../data")
     
     # Generate data
     if args.data_type == "transactions" or args.data_type == "amount":
@@ -334,7 +334,8 @@ if __name__ == "__main__":
             all_data_index = roads_data.index
 
 
-    # Generate weather data
+    # Generate weather data 
+    # Replace lat and lon with real values 
     lat = 45.4642
     lon = 9.1900
 
