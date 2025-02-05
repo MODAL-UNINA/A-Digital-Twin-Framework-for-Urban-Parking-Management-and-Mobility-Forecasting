@@ -45,7 +45,14 @@ Ensure that the following tools are installed:
    ```sh
    7z x main_zip/main.7z.001 -o"./"
    ```
-2. Run the main script using the shell script:
+2. Extract the highs solver:  
+   ```sh
+   tar -xzf HiGHS.v1.7.2.x86_64-linux-gnu-cxx03.tar.gz
+   mv bin/highs ./
+   mv lib/libhighs.so.1.7.2 ./
+   ```
+  
+4. Run the main script using the shell script:
    ```sh
     bash run.sh -e "2025-01-12" -o outputs -i inputs
  
