@@ -7,10 +7,9 @@ import requests_cache
 from retry_requests import retry
 import openmeteo_requests
 from openmeteo_requests.Client import OpenMeteoRequestsError
-
 import osmnx as ox
 
-
+# %%
 
 def generate_poi(data, south, west, north, east, data_type):    
     """
