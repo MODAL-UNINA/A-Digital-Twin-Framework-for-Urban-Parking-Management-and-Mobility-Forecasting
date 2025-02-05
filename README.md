@@ -7,6 +7,11 @@ The results highlight the PREDICO potential to improve urban mobility management
 
 
 
+![Alt text](DT.png)
+
+
+
+
 ## Acknowledgments
 The authors would like to thank K-city srl company (https://www.k-city.eu/) for their support, collaboration, and provision of the data. In particular, special thanks go to Dr. Giuseppe Morelli and Dr. Sebastiano Spina. The authors also thank the city of Caserta, including its mayor and staff, for their support.
 
