@@ -18,27 +18,22 @@ def generate_time_ranges(row, freq):
 
     start = row["datetime"].floor(
         freq
-    )  # Round down the start time to the nearest frequency
+    )  
     end = row["next_datetime"].floor(
         freq
-    )  # Round down the end time to the nearest frequency
+    )  
 
     if (start == end) and (start < row["datetime"]):
-        # If start and end are the same but earlier than the row's datetime, return NaN
         return np.nan
     elif (start == end) and (start == row["datetime"]):
-        # If start and end are the same and match the row's datetime, generate a range
         return pd.date_range(start=start, end=end, freq=freq)
     elif (start < end) and (start == row["datetime"]):
-        # If start is earlier than end and matches the row's datetime, generate a range
         return pd.date_range(start=start, end=end, freq=freq)
     elif (start < end) and (end == row["next_datetime"]):
-        # If start is earlier than end and end matches the row's next_datetime, adjust the range
-        start = start + pd.Timedelta(freq)  # Increment start by the frequency
+        start = start + pd.Timedelta(freq) 
         return pd.date_range(start=start, end=end, freq=freq)
     elif (start < end) and (start != row["datetime"]) and (end != row["next_datetime"]):
-        # If start is earlier than end, but neither matches the row's datetime or next_datetime
-        start = start + pd.Timedelta(freq)  # Increment start by the frequency
+        start = start + pd.Timedelta(freq)  
         return pd.date_range(start=start, end=end, freq=freq)
 
 
@@ -53,20 +48,18 @@ def remove_consecutive_duplicates(df):
     - A new DataFrame with consecutive duplicate rows (matching the conditions) removed.
     """
 
-    # Create a mask for rows matching the conditions
     mask = (
-        (df["status_change"] == 1)  # 'status_change' is 1
-        & (df["occupied"] == 1)  # 'occupied' is 1
+        (df["status_change"] == 1)  
+        & (df["occupied"] == 1) 
         & (
             df["numeroStallo"] == df["numeroStallo"].shift()
-        )  # Same 'numeroStallo' as previous row
+        ) 
         & (
             df["status_change"] == df["status_change"].shift()
-        )  # Same 'status_change' as previous row
-        & (df["occupied"] == df["occupied"].shift())  # Same 'occupied' as previous row
+        )  
+        & (df["occupied"] == df["occupied"].shift())  
     )
 
-    # Return the DataFrame with rows matching the mask removed, and reset the index
     return df[~mask].reset_index(drop=True)
 
 
@@ -87,7 +80,7 @@ def preprocess_sensor_data(KPlace_signals, slots, storico_stallo):
     KPlace_signals = pd.DataFrame(KPlace_signals)
     KPlace_signals["datetime"] = pd.to_datetime(
         KPlace_signals["datetime"]
-    )  # Convert datetime column to datetime objects
+    )  
     KPlace_signals = KPlace_signals.drop_duplicates()  # Remove duplicate rows
 
     # Ensure columns have the correct data types
@@ -218,13 +211,8 @@ def generate_slot_data(df_final, freq="4h"):
     and values represent the sum of occupied slots for each slot at each time interval.
     """
 
-    # Make a copy of the input DataFrame
     df = df_final.copy()
-
-    # Generate hourly time ranges for each row in df using `generate_time_ranges` function
     df["time"] = df.apply(generate_time_ranges, freq=freq, axis=1)
-
-    # Explode the time ranges into individual rows
     df = df.explode("time")
 
     # Define the complete time range for the dataset
@@ -256,16 +244,9 @@ def generate_road_data(df_final, slots):
     and values represent the sum of occupied slots for each road at each time interval.
     """
 
-    # Make a copy of the input DataFrame
     df = df_final.copy()
-
-    # Set the frequency for time intervals
     freq = "1h"
-
-    # Generate hourly time ranges for each row in df using `generate_time_ranges` function
     df["time"] = df.apply(generate_time_ranges, freq=freq, axis=1)
-
-    # Explode the time ranges into individual rows
     df = df.explode("time")
 
     # Group by slot and time, and calculate the sum of occupancy for each group
@@ -280,17 +261,9 @@ def generate_road_data(df_final, slots):
     stallo_intervals = pd.MultiIndex.from_product(
         [df["numeroStallo"].unique(), hour_intervals], names=["numeroStallo", "time"]
     )
-
-    # Create a snapshot DataFrame with all possible slot-time combinations
     snapshot_df = pd.DataFrame(index=stallo_intervals).reset_index()
-
-    # Merge the grouped occupancy data into the snapshot DataFrame
     snapshot_df = pd.merge(snapshot_df, df1, on=["numeroStallo", "time"], how="left")
-
-    # Fill missing occupancy values with 0
     snapshot_df = snapshot_df.fillna(0)
-
-    # Ensure slot numbers are integers
     snapshot_df["numeroStallo"] = snapshot_df["numeroStallo"].astype(int)
 
     # Merge slot metadata (to associate each slot with a road)
@@ -310,10 +283,8 @@ def generate_road_data(df_final, slots):
 
     # Pivot the data so that rows are time intervals, columns are roads, and values are occupancy
     roads_data = roads_data.pivot(index="time", columns="id_strada", values="occupied")
-
     roads_data = roads_data.reindex(sorted(roads_data.columns), axis=1)
     roads_data.columns = roads_data.columns.astype(int)
-
     roads_data.index = pd.to_datetime(roads_data.index)
 
     return roads_data
