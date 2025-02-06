@@ -4,9 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # %%
-
 class MultiLayerPerceptron(nn.Module):
-    """Multi-Layer Perceptron with residual links."""
 
     def __init__(self, input_dim, hidden_dim) -> None:
         super().__init__()
@@ -26,28 +24,13 @@ class MultiLayerPerceptron(nn.Module):
         self.drop = nn.Dropout(p=0.15)
 
     def forward(self, input_data: torch.Tensor) -> torch.Tensor:
-        """Feed forward of MLP.
-
-        Args:
-            input_data (torch.Tensor): input data with shape [B, D, N]
-
-        Returns:
-            torch.Tensor: latent repr
-        """
-
-        hidden = self.fc2(self.drop(self.act(self.fc1(input_data))))  # MLP
-        hidden = hidden + input_data  # residual
+        hidden = self.fc2(self.drop(self.act(self.fc1(input_data))))  
+        hidden = hidden + input_data  
         return hidden
 
 
-class STID(nn.Module):
-    """
-    Paper: Spatial-Temporal Identity: A Simple yet Effective Baseline for Multivariate Time Series Forecasting
-    Link: https://arxiv.org/abs/2208.05233
-    Official Code: https://github.com/zezhishao/STID
-    Venue: CIKM 2022
-    Task: Spatial-Temporal Forecasting
-    """
+class MV_Forecasting(nn.Module):
+
 
     def __init__(self, **model_args):
         super().__init__()
@@ -160,14 +143,6 @@ class STID(nn.Module):
         poi_data: torch.tensor,
         mask: torch.tensor,
     ) -> torch.Tensor:
-        """Feed forward of STID.
-
-        Args:
-            history_data (torch.Tensor): history data with shape [B, L, N, C]
-
-        Returns:
-            torch.Tensor: prediction with shape [B, L, N, C]
-        """
 
         # Prepare data
         input_data = history_data[..., range(self.input_dim)]
@@ -175,8 +150,6 @@ class STID(nn.Module):
         if self.if_time_in_day:
 
             t_i_d_data = history_data[..., 1]
-            # In the datasets used in STID, the time_of_day feature is normalized to [0, 1]. We multiply it by 288 to get the index.
-            # If you use other datasets, you may need to change this line.
             time_in_day_emb = self.time_in_day_emb[
                 (t_i_d_data[:, -1, :] * self.time_of_day_size).type(torch.LongTensor)
             ]
@@ -228,22 +201,21 @@ class STID(nn.Module):
             # Embedding category type and distance
             poi_type_emb = self.poi_type_embedding(
                 poi_types
-            )  # [B, N, num_POI, poi_embed_dim]
+            ) 
             poi_distance_emb = self.distance_encoder(
                 poi_distances
-            )  # [B, N, num_POI, poi_embed_dim]
+            ) 
 
             # Concatenate embeddings
             poi_combined = torch.cat(
                 [poi_type_emb, poi_distance_emb], dim=-1
-            )  # [B, N, num_POI, 2 * poi_embed_dim]
-            poi_emb = self.poi_encoder(poi_combined)  # [B, N, num_POI, poi_embed_dim]
+            )  
 
+            poi_emb = self.poi_encoder(poi_combined) 
             # Mask to exclude invalid POI
             poi_emb = poi_emb * mask
 
-            poi_emb = self.aggregator(poi_emb)  # [B, N, poi_embed_dim]
-
+            poi_emb = self.aggregator(poi_emb) 
             poi_emb = poi_emb.transpose(1, 2).unsqueeze(-1)
 
             hidden = torch.cat([hidden] + [poi_emb], dim=1)
@@ -252,15 +224,14 @@ class STID(nn.Module):
         if exogenous_data is not None:
             exogenous_encoded = F.relu(self.exogenous_encoder(exogenous_data))
 
-            hidden_transposed = hidden.squeeze(-1).transpose(1, 2)  # [B, N, hidden_dim]
+            hidden_transposed = hidden.squeeze(-1).transpose(1, 2)  
 
             attn_output, _ = self.attention_layer(
                 hidden_transposed, exogenous_encoded, exogenous_encoded
             )
             hidden = hidden + attn_output.transpose(1, 2).unsqueeze(
                 -1
-            )  # Residual connection
-
+            ) 
         # Encoding
         hidden = self.encoder(hidden)
 
@@ -275,11 +246,10 @@ class AttentionAggregator(nn.Module):
         super().__init__()
         self.query = nn.Linear(embed_dim, 1)
 
-    def forward(self, poi_embeddings):  # [B, num_parcometri, num_poi, embed_dim]
-
+    def forward(self, poi_embeddings):  
         attention_weights = self.query(poi_embeddings).squeeze(
             -1
-        )  # [B, num_parcometri, num_poi]
+        ) 
         attention_weights = F.softmax(attention_weights, dim=-1)
 
         # Compute weighted sum of POI embeddings
@@ -294,9 +264,9 @@ class Modelcomplete(nn.Module):
     def __init__(self, model_args):
         super().__init__()
 
-        self.residual = STID(**model_args)
-        self.trend = STID(**model_args)
-        self.seasonal = STID(**model_args)
+        self.residual = MV_Forecasting(**model_args)
+        self.trend = MV_Forecasting(**model_args)
+        self.seasonal = MV_Forecasting(**model_args)
 
     def forward(
         self, seasonal, residual, trend, exogenous=None, poi_tensor=None, mask=None
@@ -309,4 +279,5 @@ class Modelcomplete(nn.Module):
         out = seasonal + residual + trend
 
         return out, seasonal, residual, trend
+
 
