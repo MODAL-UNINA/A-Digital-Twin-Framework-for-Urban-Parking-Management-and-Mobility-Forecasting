@@ -279,10 +279,11 @@ def download_meteo(start_date, end_date, lat, lon):
 
         # Process hourly data. The order of variables needs to be the same as requested.
         hourly = response.Hourly()
-        hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
-        hourly_relative_humidity_2m = hourly.Variables(1).ValuesAsNumpy()
-        hourly_precipitation = hourly.Variables(2).ValuesAsNumpy()
-        hourly_wind_speed_10m = hourly.Variables(3).ValuesAsNumpy()
+        hourly_precipitation = hourly.Variables(0).ValuesAsNumpy()
+        hourly_temperature_2m = hourly.Variables(1).ValuesAsNumpy()
+        hourly_wind_speed_10m = hourly.Variables(2).ValuesAsNumpy()
+        hourly_relative_humidity_2m = hourly.Variables(3).ValuesAsNumpy()
+
 
         # Construct DataFrame for hourly weather data
         hourly_data = {"date": pd.date_range(
