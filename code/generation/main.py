@@ -1,23 +1,22 @@
-# %%
-import torch
-import torch.nn as nn
-import os
+import argparse
 import json
+import os
+import random
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-import random
-import argparse
-from pathlib import Path
-from utils.models import Encoder, Generator, Critic
-from utilsn.utils import grid_building, add_conditions
+import torch
+import torch.nn as nn
 from data_processing.mobility_data_processing import (
     generate_hourly_transactions,
     generate_slot_data,
     preprocess_sensor_data,
 )
-from data_processing.exogenous_data_processing import download_meteo
+from data_processing.generate_external_data import download_meteo
+from utils.models import Critic, Encoder, Generator
+from utils.utils import add_conditions, grid_building
 
-# %%
 parser = argparse.ArgumentParser(allow_abbrev=False)
 
 # ARGS FOR GENERATION 1st SCENARIO
@@ -84,9 +83,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-# %%
-
-
 def save_model(model, model_save_path):
     torch.save(model.state_dict(), model_save_path)
 
@@ -141,7 +137,7 @@ def train_model(
         generator.train()
         encoder.train()
 
-        for i, (data, conditions) in enumerate(train_dataloader):
+        for _, (data, conditions) in enumerate(train_dataloader):
             data = data.permute(0, 2, 1, 3, 4)
             data = data.to(device)
             conditions = conditions.permute(0, 2, 1, 3, 4)
@@ -217,7 +213,7 @@ def train_model(
         critic.eval()
         generator.eval()
         with torch.no_grad():
-            for i, (data, conditions) in enumerate(val_dataloader):
+            for _, (data, conditions) in enumerate(val_dataloader):
                 data = data.permute(0, 2, 1, 3, 4)
                 data = data.to(device)
                 conditions = conditions.permute(0, 2, 1, 3, 4)
@@ -301,13 +297,11 @@ def reconstruction_loss(recon, data):
 
 
 def kl_loss(z_mean, z_log_var):
-
     kl = -0.5 * torch.sum(1 + z_log_var - z_mean.pow(2) - z_log_var.exp(), dim=1)
     return kl.mean()
 
 
 def generate(encoder_best, generator_best, conditions, device, args):
-
     encoder_best.eval()
     generator_best.eval()
     with torch.no_grad():
@@ -322,10 +316,7 @@ def generate(encoder_best, generator_best, conditions, device, args):
     return fake_data
 
 
-# %%
-
 if __name__ == "__main__":
-
     args, _ = parser.parse_known_args()
 
     data_dir = Path("../data")

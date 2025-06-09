@@ -1,12 +1,10 @@
-# %%
 import numpy as np
 import pandas as pd
 import torch
-from torch.utils.data import Dataset
 from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.seasonal import STL
+from torch.utils.data import Dataset
 
-# %%
 
 def create_sequences_multivariate(series, indices, seq_length, horizon):
     """
@@ -29,8 +27,7 @@ def create_sequences_multivariate(series, indices, seq_length, horizon):
     x_indices, y_indices = [], []
     data = series
     for i in range(len(data) - seq_length - horizon + 1):
-
-        x = data[i : i + seq_length, :]  
+        x = data[i : i + seq_length, :]
         y = data[i + seq_length : i + seq_length + horizon, :]
         x_indx = indices[i : i + seq_length]
         y_indx = indices[i + seq_length : i + seq_length + horizon]
@@ -47,9 +44,7 @@ def create_sequences_multivariate(series, indices, seq_length, horizon):
     )
 
 
-def add_features(
-    data, add_time_of_day=None, add_day_of_week=None, steps_per_day=24
-):
+def add_features(data, add_time_of_day=None, add_day_of_week=None, steps_per_day=24):
     """
     Adds additional time-related features (time of day and day of week) to a given time series dataset.
 
@@ -86,8 +81,17 @@ def add_features(
 
 
 class TimeSeriesDataset(Dataset):
-    def __init__(self, data=None, seasonal=None, trend=None, residual=None, targets=None, exogenous=None, poi_data=None, mask=None):
-                
+    def __init__(
+        self,
+        data=None,
+        seasonal=None,
+        trend=None,
+        residual=None,
+        targets=None,
+        exogenous=None,
+        poi_data=None,
+        mask=None,
+    ):
         self.seasonal = seasonal
         self.trend = trend
         self.residual = residual
@@ -101,7 +105,6 @@ class TimeSeriesDataset(Dataset):
         return len(self.targets)
 
     def __getitem__(self, idx):
-
         item = {}
         if self.data is not None:
             item["data"] = self.data[idx]
@@ -125,10 +128,10 @@ class TimeSeriesDataset(Dataset):
 def haversine_matrix(gps_coordinates):
     """
     Compute a matrix of Haversine distances between all GPS points.
-    
+
     Parameters:
     - gps_coordinates (tensor): A 2D tensor with shape (N, 2), where each row represents (latitude, longitude) in degrees.
-    
+
     Returns:
     - distance_matrix (tensor): A 2D tensor of shape (N, N) containing the pairwise Haversine distances in kilometers.
     """
@@ -165,10 +168,10 @@ def haversine_matrix(gps_coordinates):
 def normalize_distance_matrix(distance_matrix):
     """
     Normalize the distance matrix to a [0, 1] scale.
-    
+
     Parameters:
     - distance_matrix (tensor): A 2D tensor containing pairwise distances.
-    
+
     Returns:
     - normalized_matrix (tensor): A 2D tensor where values are scaled between 0 and 1.
     """
@@ -189,20 +192,20 @@ def split(data, exog_data, train_percentage):
     """
     Splits the dataset into training, validation, and test sets.
     It scales the data, applies STL decomposition, and adds time-related features (time of day, day of week).
-    
+
     Parameters:
     - data: DataFrame containing the main time series data.
     - exog_data: DataFrame containing the exogenous variables.
     - train_percentage: Percentage of training data.
 
-    
+
     Returns:
     - data_scaler: The MinMaxScaler used for scaling the data.
     - train_data_with_features: Dictionary containing training data with features.
     - val_data_with_features: Dictionary containing validation data with features.
     - test_data_with_features: Dictionary containing test data with features.
     """
-    
+
     # Define the end of the training period based on the train_percentage
     train_end = int(train_percentage * data.shape[0])
 
@@ -217,7 +220,9 @@ def split(data, exog_data, train_percentage):
         index=train_data.index,
     )
     test_data_scaled = pd.DataFrame(
-        data_scaler.transform(test_data), columns=test_data.columns, index=test_data.index
+        data_scaler.transform(test_data),
+        columns=test_data.columns,
+        index=test_data.index,
     )
 
     # Scale the exogenous data
@@ -239,7 +244,6 @@ def split(data, exog_data, train_percentage):
     assert (train_data.index == train_exog.index).all()
     assert (test_data.index == test_exog.index).all()
 
-    
     # Apply STL decomposition (Seasonal-Trend decomposition using LOESS) to the scaled data
     stl_train_data = pd.DataFrame(columns=data.columns)
     trend_train_data = pd.DataFrame(columns=data.columns)
@@ -334,12 +338,25 @@ def split(data, exog_data, train_percentage):
     val_data_with_features["exog"] = train_exog_scaled[train_size:].values
     test_data_with_features["exog"] = test_exog_scaled.values
 
-    return data_scaler, train_data_with_features, val_data_with_features, test_data_with_features
+    return (
+        data_scaler,
+        train_data_with_features,
+        val_data_with_features,
+        test_data_with_features,
+    )
 
-def create_datasets(train_data_with_features, val_data_with_features, test_data_with_features, poi_tensor, mask, args):
+
+def create_datasets(
+    train_data_with_features,
+    val_data_with_features,
+    test_data_with_features,
+    poi_tensor,
+    mask,
+    args,
+):
     """
     Creates datasets for training, validation, and testing by generating sequences from multivariate time series data.
-    
+
     Parameters:
     - train_data_with_features: Dictionary containing training data with features.
     - val_data_with_features: Dictionary containing validation data with features.
@@ -347,13 +364,13 @@ def create_datasets(train_data_with_features, val_data_with_features, test_data_
     - poi_tensor: Tensor containing Points of Interest (POI) information.
     - mask: Mask tensor for POI data.
     - args: Argument object containing input_length (length of input sequences) and horizon (forecast horizon).
-    
+
     Returns:
     - train_dataset: TimeSeriesDataset object for training.
     - val_dataset: TimeSeriesDataset object for validation.
     - test_dataset: TimeSeriesDataset object for testing.
     """
-    
+
     # Initialize dictionaries to store input (X) and output (y) sequences for train, validation, and test sets
     X_train = {
         "data": None,
@@ -440,14 +457,14 @@ def create_datasets(train_data_with_features, val_data_with_features, test_data_
 
     # Create TimeSeriesDataset objects for train, validation, and test sets
     train_dataset = TimeSeriesDataset(
-        X_train['data'],
+        X_train["data"],
         X_train["seasonal"],
         X_train["trend"],
         X_train["residual"],
         y_train["data"],
         X_train["exog"],
         poi_tensor,
-        mask
+        mask,
     )
     val_dataset = TimeSeriesDataset(
         X_val["data"],
@@ -457,7 +474,7 @@ def create_datasets(train_data_with_features, val_data_with_features, test_data_
         y_val["data"],
         X_val["exog"],
         poi_tensor,
-        mask
+        mask,
     )
     test_dataset = TimeSeriesDataset(
         X_test["data"],
@@ -467,8 +484,7 @@ def create_datasets(train_data_with_features, val_data_with_features, test_data_
         y_test["data"],
         X_test["exog"],
         poi_tensor,
-        mask
+        mask,
     )
 
     return train_dataset, val_dataset, test_dataset
-

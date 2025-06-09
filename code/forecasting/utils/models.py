@@ -1,11 +1,9 @@
-# %%
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# %%
-class MultiLayerPerceptron(nn.Module):
 
+class MultiLayerPerceptron(nn.Module):
     def __init__(self, input_dim, hidden_dim) -> None:
         super().__init__()
         self.fc1 = nn.Conv2d(
@@ -24,14 +22,12 @@ class MultiLayerPerceptron(nn.Module):
         self.drop = nn.Dropout(p=0.15)
 
     def forward(self, input_data: torch.Tensor) -> torch.Tensor:
-        hidden = self.fc2(self.drop(self.act(self.fc1(input_data))))  
-        hidden = hidden + input_data  
+        hidden = self.fc2(self.drop(self.act(self.fc1(input_data))))
+        hidden = hidden + input_data
         return hidden
 
 
 class MV_Forecasting(nn.Module):
-
-
     def __init__(self, **model_args):
         super().__init__()
 
@@ -115,7 +111,6 @@ class MV_Forecasting(nn.Module):
         # Attention for exogenous features
         self.exogenous_dim = model_args.get("exogenous_dim", 0)
         if self.exogenous_dim > 0:
-
             self.exogenous_encoder = nn.Linear(self.exogenous_dim, self.hidden_dim)
 
             self.attention_layer = nn.MultiheadAttention(
@@ -124,7 +119,6 @@ class MV_Forecasting(nn.Module):
 
         # POI embeddings
         if self.if_poi:
-
             self.num_poi_types = model_args["num_poi_types"]
 
             self.poi_type_embedding = nn.Embedding(self.num_poi_types, self.node_dim)
@@ -143,12 +137,10 @@ class MV_Forecasting(nn.Module):
         poi_data: torch.tensor,
         mask: torch.tensor,
     ) -> torch.Tensor:
-
         # Prepare data
         input_data = history_data[..., range(self.input_dim)]
 
         if self.if_time_in_day:
-
             t_i_d_data = history_data[..., 1]
             time_in_day_emb = self.time_in_day_emb[
                 (t_i_d_data[:, -1, :] * self.time_of_day_size).type(torch.LongTensor)
@@ -157,7 +149,6 @@ class MV_Forecasting(nn.Module):
             time_in_day_emb = None
 
         if self.if_day_in_week:
-
             d_i_w_data = history_data[..., 2]
             day_in_week_emb = self.day_in_week_emb[
                 (d_i_w_data[:, -1, :] * self.day_of_week_size).type(torch.LongTensor)
@@ -199,23 +190,17 @@ class MV_Forecasting(nn.Module):
             poi_distances = poi_data[..., 1].unsqueeze(-1)
 
             # Embedding category type and distance
-            poi_type_emb = self.poi_type_embedding(
-                poi_types
-            ) 
-            poi_distance_emb = self.distance_encoder(
-                poi_distances
-            ) 
+            poi_type_emb = self.poi_type_embedding(poi_types)
+            poi_distance_emb = self.distance_encoder(poi_distances)
 
             # Concatenate embeddings
-            poi_combined = torch.cat(
-                [poi_type_emb, poi_distance_emb], dim=-1
-            )  
+            poi_combined = torch.cat([poi_type_emb, poi_distance_emb], dim=-1)
 
-            poi_emb = self.poi_encoder(poi_combined) 
+            poi_emb = self.poi_encoder(poi_combined)
             # Mask to exclude invalid POI
             poi_emb = poi_emb * mask
 
-            poi_emb = self.aggregator(poi_emb) 
+            poi_emb = self.aggregator(poi_emb)
             poi_emb = poi_emb.transpose(1, 2).unsqueeze(-1)
 
             hidden = torch.cat([hidden] + [poi_emb], dim=1)
@@ -224,14 +209,12 @@ class MV_Forecasting(nn.Module):
         if exogenous_data is not None:
             exogenous_encoded = F.relu(self.exogenous_encoder(exogenous_data))
 
-            hidden_transposed = hidden.squeeze(-1).transpose(1, 2)  
+            hidden_transposed = hidden.squeeze(-1).transpose(1, 2)
 
             attn_output, _ = self.attention_layer(
                 hidden_transposed, exogenous_encoded, exogenous_encoded
             )
-            hidden = hidden + attn_output.transpose(1, 2).unsqueeze(
-                -1
-            ) 
+            hidden = hidden + attn_output.transpose(1, 2).unsqueeze(-1)
         # Encoding
         hidden = self.encoder(hidden)
 
@@ -246,10 +229,8 @@ class AttentionAggregator(nn.Module):
         super().__init__()
         self.query = nn.Linear(embed_dim, 1)
 
-    def forward(self, poi_embeddings):  
-        attention_weights = self.query(poi_embeddings).squeeze(
-            -1
-        ) 
+    def forward(self, poi_embeddings):
+        attention_weights = self.query(poi_embeddings).squeeze(-1)
         attention_weights = F.softmax(attention_weights, dim=-1)
 
         # Compute weighted sum of POI embeddings
@@ -260,7 +241,6 @@ class AttentionAggregator(nn.Module):
 
 
 class Modelcomplete(nn.Module):
-
     def __init__(self, model_args):
         super().__init__()
 
@@ -271,7 +251,6 @@ class Modelcomplete(nn.Module):
     def forward(
         self, seasonal, residual, trend, exogenous=None, poi_tensor=None, mask=None
     ) -> torch.Tensor:
-
         seasonal = self.seasonal(seasonal, exogenous, poi_tensor, mask)
         residual = self.residual(residual, exogenous, poi_tensor, mask)
         trend = self.trend(trend, exogenous, poi_tensor, mask)
@@ -279,5 +258,3 @@ class Modelcomplete(nn.Module):
         out = seasonal + residual + trend
 
         return out, seasonal, residual, trend
-
-

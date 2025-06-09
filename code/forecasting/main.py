@@ -1,46 +1,59 @@
-# %%
-import torch
-from torch.utils.data import DataLoader
-import torch.nn as nn
-from sklearn.manifold import MDS
-import os
+import argparse
 import json
+import os
+import random
+from pathlib import Path
+
+import holidays
 import numpy as np
 import pandas as pd
-import random
-import holidays
-import argparse
-from pathlib import Path
+import torch
+import torch.nn as nn
+from data_processing.generate_external_data import (
+    download_meteo,
+    generate_events,
+    generate_poi,
+)
+from data_processing.mobility_data_processing import (
+    generate_hourly_transactions,
+    generate_road_data,
+    preprocess_sensor_data,
+)
+from sklearn.manifold import MDS
+from torch.utils.data import DataLoader
 from utils.models import Modelcomplete
-from utils.utils import split, create_datasets, normalize_distance_matrix, haversine_matrix
-from data_processing.mobility_data_processing import generate_hourly_transactions, generate_road_data, preprocess_sensor_data
-from data_processing.exogenous_data_processing import download_meteo, generate_events, generate_poi
+from utils.utils import (
+    create_datasets,
+    haversine_matrix,
+    normalize_distance_matrix,
+    split,
+)
 
 parser = argparse.ArgumentParser(allow_abbrev=False)
 
 # ARGS FOR TRANSACTIONS
-parser.add_argument('--data_type', type=str, default='transactions')
-parser.add_argument('--target_channel', type=int, default=0)
-parser.add_argument('--input_length', type=int, default=24 * 7 * 4)
-parser.add_argument('--horizon', type=int, default=24 * 7)
-parser.add_argument('--batch_size', type=int, default=128)
-parser.add_argument('--use_gps', type=bool, default=True)
-parser.add_argument('--num_nodes', type=int, default=97)
-parser.add_argument('--node_dim', type=int, default=16)
-parser.add_argument('--input_dim', type=int, default=1)
-parser.add_argument('--embed_dim', type=int, default=512)
-parser.add_argument('--num_layer', type=int, default=1)
-parser.add_argument('--temp_dim_tid', type=int, default=8)
-parser.add_argument('--temp_dim_diw', type=int, default=8)
-parser.add_argument('--time_of_day_size', type=int, default=24)
-parser.add_argument('--day_of_week_size', type=int, default=7)
-parser.add_argument('--if_T_i_D', type=bool, default=True)
-parser.add_argument('--if_D_i_W', type=bool, default=True)
-parser.add_argument('--if_node', type=bool, default=True)
-parser.add_argument('--exogenous_dim', type=int, default=13)
-parser.add_argument('--num_poi_types', type=int, default=7)
-parser.add_argument('--num_epochs', type=int, default=1000)
-parser.add_argument('--train_percentage', type=float, default=0.9)
+parser.add_argument("--data_type", type=str, default="transactions")
+parser.add_argument("--target_channel", type=int, default=0)
+parser.add_argument("--input_length", type=int, default=24 * 7 * 4)
+parser.add_argument("--horizon", type=int, default=24 * 7)
+parser.add_argument("--batch_size", type=int, default=128)
+parser.add_argument("--use_gps", type=bool, default=True)
+parser.add_argument("--num_nodes", type=int, default=97)
+parser.add_argument("--node_dim", type=int, default=16)
+parser.add_argument("--input_dim", type=int, default=1)
+parser.add_argument("--embed_dim", type=int, default=512)
+parser.add_argument("--num_layer", type=int, default=1)
+parser.add_argument("--temp_dim_tid", type=int, default=8)
+parser.add_argument("--temp_dim_diw", type=int, default=8)
+parser.add_argument("--time_of_day_size", type=int, default=24)
+parser.add_argument("--day_of_week_size", type=int, default=7)
+parser.add_argument("--if_T_i_D", type=bool, default=True)
+parser.add_argument("--if_D_i_W", type=bool, default=True)
+parser.add_argument("--if_node", type=bool, default=True)
+parser.add_argument("--exogenous_dim", type=int, default=13)
+parser.add_argument("--num_poi_types", type=int, default=7)
+parser.add_argument("--num_epochs", type=int, default=1000)
+parser.add_argument("--train_percentage", type=float, default=0.9)
 
 # # ARGS FOR AMOUNT
 # parser.add_argument('--data_type', type=str, default='amount')
@@ -106,10 +119,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-
-# %%
-
-
 def save_model(model, model_save_path):
     torch.save(model.state_dict(), model_save_path)
 
@@ -120,14 +129,14 @@ def train_model(
     criterion,
     device,
     model_save_dir,
-    args,    
+    args,
 ):
     # Model parameters
     model_args = {
         "num_nodes": args.num_nodes,  # Number of nodes
         "node_dim": args.node_dim,  # Spatial embedding dimension
         "input_len": args.input_length,  # Input sequence length
-        "input_dim": args.input_dim,  # Input dimension 
+        "input_dim": args.input_dim,  # Input dimension
         "embed_dim": args.embed_dim,  # Embedding dimension
         "output_len": args.horizon,  # Output sequence length
         "num_layer": args.num_layer,  # Number of MLP layers
@@ -144,9 +153,15 @@ def train_model(
     }
 
     if args.use_gps:
-        mds = MDS(n_components=model_args['node_dim'], dissimilarity='precomputed', random_state=42)
+        mds = MDS(
+            n_components=model_args["node_dim"],
+            dissimilarity="precomputed",
+            random_state=42,
+        )
         gps_embeddings = mds.fit_transform(dist_matrix)
-        gps_embeddings = torch.tensor(gps_embeddings, dtype=torch.float32).to(device)  # [N, node_dim]
+        gps_embeddings = torch.tensor(gps_embeddings, dtype=torch.float32).to(
+            device
+        )  # [N, node_dim]
         model_args["gps_embedding"] = gps_embeddings
 
     model = Modelcomplete(model_args).to(device)
@@ -157,7 +172,9 @@ def train_model(
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     decay_rate = 0.5
 
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=decay_rate)
+    scheduler = torch.optim.lr_scheduler.StepLR(
+        optimizer, step_size=10, gamma=decay_rate
+    )
 
     best_epoch = 0
     train_losses = []
@@ -168,7 +185,7 @@ def train_model(
 
     lr_update_interval = 5
     try:
-        for epoch in range(args.num_epochs): 
+        for epoch in range(args.num_epochs):
             model.train()
             train_loss = 0.0
             for batch in train_dataloader:
@@ -179,10 +196,12 @@ def train_model(
                 residual = batch["residual"].to(device)
 
                 exogenous = batch["exogenous"].to(device)
-                    
+
                 poi_tensor = batch["poi_data"].to(device)
                 mask = batch["mask"].to(device)
-                out, seasonal, residual, trend = model(seasonal, residual, trend, exogenous, poi_tensor, mask)
+                out, seasonal, residual, trend = model(
+                    seasonal, residual, trend, exogenous, poi_tensor, mask
+                )
 
                 targets = batch["targets"].to(device)
                 targets = targets[..., [args.target_channel]]
@@ -193,7 +212,7 @@ def train_model(
                 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=2.0)
                 optimizer.step()
                 train_loss += loss.item()
-            
+
             train_loss /= len(train_dataloader)
             train_losses.append(train_loss)
 
@@ -203,16 +222,18 @@ def train_model(
             val_true = []
             save_model(model, model_save_dir + "/model_last.pth")
             with torch.no_grad():
-                for batch in val_dataloader:      
+                for batch in val_dataloader:
                     seasonal = batch["seasonal"].to(device)
                     trend = batch["trend"].to(device)
                     residual = batch["residual"].to(device)
-                    
+
                     exogenous = batch["exogenous"].to(device)
-                        
+
                     poi_tensor = batch["poi_data"].to(device)
                     mask = batch["mask"].to(device)
-                    out, seasonal, residual, trend = model(seasonal, residual, trend, exogenous, poi_tensor, mask)
+                    out, seasonal, residual, trend = model(
+                        seasonal, residual, trend, exogenous, poi_tensor, mask
+                    )
 
                     targets = batch["targets"].to(device)
                     targets = targets[..., [args.target_channel]]
@@ -225,8 +246,15 @@ def train_model(
 
             val_loss /= len(val_dataloader)
             val_losses.append(val_loss)
-            print("Epoch: ", epoch, "Train Loss: ", round(train_loss, 5), "Val Loss: ", round(val_loss,5))
-            
+            print(
+                "Epoch: ",
+                epoch,
+                "Train Loss: ",
+                round(train_loss, 5),
+                "Val Loss: ",
+                round(val_loss, 5),
+            )
+
             if scheduler:
                 is_best_for_now = False
                 if best_validate_loss > val_loss + 1e-5:
@@ -236,9 +264,9 @@ def train_model(
                     model_best = model
                 else:
                     validate_score_non_decrease_count += 1
-                    
-                if (validate_score_non_decrease_count+1) % lr_update_interval == 0:
-                    current_lr = optimizer.param_groups[0]['lr']
+
+                if (validate_score_non_decrease_count + 1) % lr_update_interval == 0:
+                    current_lr = optimizer.param_groups[0]["lr"]
                     if current_lr > min_lr:
                         print(f"Current learning rate: {current_lr}")
                         model.load_state_dict(model_best.state_dict())
@@ -257,21 +285,19 @@ def train_model(
     return train_losses, val_losses, best_epoch, model_best
 
 
-
 def predict(model, test_dataloader, args):
-    
     model.eval()
     predictions = []
     actuals = []
 
-    with torch.no_grad():   
+    with torch.no_grad():
         for batch in test_dataloader:
             targets = batch["targets"].to(device)
             seasonal = batch["seasonal"].to(device)
             trend = batch["trend"].to(device)
             residual = batch["residual"].to(device)
             exogenous = batch["exogenous"].to(device)
-                
+
             poi_tensor = batch["poi_data"].to(device)
             mask = batch["mask"].to(device)
             out, _, _, _ = model(seasonal, residual, trend, exogenous, poi_tensor, mask)
@@ -286,20 +312,19 @@ def predict(model, test_dataloader, args):
 
     return predictions, actuals
 
-# %%
 
 if __name__ == "__main__":
-
     args, _ = parser.parse_known_args()
 
     data_dir = Path("../data")
-    
+
     # Generate data
     if args.data_type == "transactions" or args.data_type == "amount":
-
         transaction_data = pd.read_csv(data_dir / "transaction_data.csv", index_col=0)
 
-        hourly_transactions = generate_hourly_transactions(transaction_data, args.data_type)
+        hourly_transactions = generate_hourly_transactions(
+            transaction_data, args.data_type
+        )
 
         start_date = hourly_transactions.index.min()
         end_date = hourly_transactions.index.max()
@@ -307,7 +332,6 @@ if __name__ == "__main__":
         all_data_index = hourly_transactions.index
 
     elif args.data_type == "roads":
-        
         with open(data_dir / "AnagraficaStallo.json", "r") as f:
             slots = json.load(f)
 
@@ -333,9 +357,8 @@ if __name__ == "__main__":
             end_date = roads_data.index.max()
             all_data_index = roads_data.index
 
-
-    # Generate weather data 
-    # Replace lat and lon with real values 
+    # Generate weather data
+    # Replace lat and lon with real values
     lat = 45.4642
     lon = 9.1900
 
@@ -352,7 +375,6 @@ if __name__ == "__main__":
     east = 9.25
 
     events_data = generate_events(events, south, west, north, east)
-
 
     events_data.index = pd.to_datetime(events_data.index)
     events_data = events_data.reindex(
@@ -371,16 +393,33 @@ if __name__ == "__main__":
         [date for year in years for date, _ in holidays.Italy(years=year).items()]
     )
 
-    is_holiday = pd.DataFrame(
-        index=all_data_index, columns=["is_holiday"], data=0
-    )
+    is_holiday = pd.DataFrame(index=all_data_index, columns=["is_holiday"], data=0)
 
     is_holiday.loc[is_holiday.index.normalize().isin(it_holidays), "is_holiday"] = 1
 
     easter = pd.date_range("2024-03-28", "2024-04-01", freq="D")
 
-    days_christmas = ["12-23", "12-24", "12-25", "12-26", "12-27", "12-28", "12-29", "12-30", "12-31", "01-01", "01-02", "01-03", "01-04", "01-05", "01-06"]
-    christmas = [pd.date_range(start=f"{year}-12-23", end=f"{year+1}-01-06", freq="D") for year in years]    
+    days_christmas = [
+        "12-23",
+        "12-24",
+        "12-25",
+        "12-26",
+        "12-27",
+        "12-28",
+        "12-29",
+        "12-30",
+        "12-31",
+        "01-01",
+        "01-02",
+        "01-03",
+        "01-04",
+        "01-05",
+        "01-06",
+    ]
+    christmas = [
+        pd.date_range(start=f"{year}-12-23", end=f"{year + 1}-01-06", freq="D")
+        for year in years
+    ]
 
     christmas = pd.DatetimeIndex(np.concatenate(christmas))
 
@@ -390,26 +429,28 @@ if __name__ == "__main__":
 
     our_holidays = pd.DataFrame(index=all_data_index, columns=["our_holidays"], data=0)
 
-    our_holidays.loc[our_holidays.index.normalize().isin(days_our_holidays), "our_holidays"] = 1
+    our_holidays.loc[
+        our_holidays.index.normalize().isin(days_our_holidays), "our_holidays"
+    ] = 1
 
     exog_data = pd.concat([weather_data, events_data, is_holiday, our_holidays], axis=1)
 
-
     # Generate POI data
     if args.data_type == "transactions" or args.data_type == "amount":
-
         with open(data_dir / "anagraficaParcometro.json", "r") as f:
             anagrafica = json.load(f)
-        
-        poi_dist, poi_categories = generate_poi(anagrafica, south, west, north, east, args.data_type)
 
+        poi_dist, poi_categories = generate_poi(
+            anagrafica, south, west, north, east, args.data_type
+        )
 
     elif args.data_type == "roads":
-        
         with open(data_dir / "roads.json", "r") as f:
             anagrafica_roads = json.load(f)
 
-        poi_dist, poi_categories = generate_poi(anagrafica_roads, south, west, north, east, args.data_type)
+        poi_dist, poi_categories = generate_poi(
+            anagrafica_roads, south, west, north, east, args.data_type
+        )
 
     poi_categories = np.expand_dims(poi_categories.values, axis=-1).astype(np.float32)
     poi_dist = np.expand_dims(poi_dist.values, axis=-1).astype(np.float32)
@@ -419,7 +460,7 @@ if __name__ == "__main__":
 
     poi_dist_masked = poi_dist * mask
 
-    # Normalize distance matrix 
+    # Normalize distance matrix
     denominator = poi_dist_masked.max() - poi_dist_masked.min()
     if denominator == 0:
         pass
@@ -428,14 +469,11 @@ if __name__ == "__main__":
 
     poi_data_ = np.concatenate([poi_categories, poi_dist_masked], axis=-1)
 
-    poi_tensor = torch.tensor(
-        poi_data_, dtype=torch.float32
-    )
+    poi_tensor = torch.tensor(poi_data_, dtype=torch.float32)
 
     mask = torch.tensor(mask, dtype=torch.float32)
 
     if args.use_gps:
-
         parcometri = anagrafica.copy()
 
         parcometri = pd.DataFrame(parcometri)
@@ -446,7 +484,10 @@ if __name__ == "__main__":
 
         gps_coordinates = torch.tensor(
             [
-                [float(parcometri[parcometro]["lat"]), float(parcometri[parcometro]["lng"])]
+                [
+                    float(parcometri[parcometro]["lat"]),
+                    float(parcometri[parcometro]["lng"]),
+                ]
                 for parcometro in parcometri.keys()
             ]
         )
@@ -455,16 +496,37 @@ if __name__ == "__main__":
         dist_matrix = normalize_distance_matrix(dist_matrix)
 
     if args.data_type == "transactions" or args.data_type == "amount":
-        data_scaler, train_data_with_features, val_data_with_features, test_data_with_features = split(hourly_transactions, exog_data, args.train_percentage) 
+        (
+            data_scaler,
+            train_data_with_features,
+            val_data_with_features,
+            test_data_with_features,
+        ) = split(hourly_transactions, exog_data, args.train_percentage)
     elif args.data_type == "roads":
-        data_scaler, train_data_with_features, val_data_with_features, test_data_with_features = split(roads_data, exog_data, args.train_percentage)
+        (
+            data_scaler,
+            train_data_with_features,
+            val_data_with_features,
+            test_data_with_features,
+        ) = split(roads_data, exog_data, args.train_percentage)
 
-    train_dataset, val_dataset, test_dataset = create_datasets(train_data_with_features, val_data_with_features, test_data_with_features, poi_tensor, mask, args)
+    train_dataset, val_dataset, test_dataset = create_datasets(
+        train_data_with_features,
+        val_data_with_features,
+        test_data_with_features,
+        poi_tensor,
+        mask,
+        args,
+    )
 
     # Dataloader creation
-    train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+    train_dataloader = DataLoader(
+        train_dataset, batch_size=args.batch_size, shuffle=True
+    )
     val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
-    test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
+    test_dataloader = DataLoader(
+        test_dataset, batch_size=args.batch_size, shuffle=False
+    )
 
     # Training
     model_save_dir = "results"
@@ -480,11 +542,11 @@ if __name__ == "__main__":
     criterion = nn.HuberLoss(reduction="mean")
 
     print("Training model...")
-        
+
     train_losses, val_losses, best_epoch, model_best = train_model(
         train_dataloader,
         val_dataloader,
-        criterion,  
+        criterion,
         device,
         model_save_dir,
         args,
@@ -493,7 +555,6 @@ if __name__ == "__main__":
     # Prediction
     print("Predicting...")
     pred_series, actual_series = predict(model_best, test_dataloader, args)
-
 
     pred_series = np.maximum(pred_series, 0)
     actual_series1 = data_scaler.inverse_transform(

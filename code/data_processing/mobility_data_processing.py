@@ -1,9 +1,7 @@
-# %%
 import numpy as np
 import pandas as pd
 
 
-# %%
 def generate_time_ranges(row, freq):
     """
     Generates time intervals for each row of the dataframe based on the specified frequency.
@@ -16,12 +14,8 @@ def generate_time_ranges(row, freq):
     - A pd.DatetimeIndex object representing the time interval, or NaN if conditions are not met.
     """
 
-    start = row["datetime"].floor(
-        freq
-    )  
-    end = row["next_datetime"].floor(
-        freq
-    )  
+    start = row["datetime"].floor(freq)
+    end = row["next_datetime"].floor(freq)
 
     if (start == end) and (start < row["datetime"]):
         return np.nan
@@ -30,10 +24,10 @@ def generate_time_ranges(row, freq):
     elif (start < end) and (start == row["datetime"]):
         return pd.date_range(start=start, end=end, freq=freq)
     elif (start < end) and (end == row["next_datetime"]):
-        start = start + pd.Timedelta(freq) 
+        start = start + pd.Timedelta(freq)
         return pd.date_range(start=start, end=end, freq=freq)
     elif (start < end) and (start != row["datetime"]) and (end != row["next_datetime"]):
-        start = start + pd.Timedelta(freq)  
+        start = start + pd.Timedelta(freq)
         return pd.date_range(start=start, end=end, freq=freq)
 
 
@@ -49,15 +43,11 @@ def remove_consecutive_duplicates(df):
     """
 
     mask = (
-        (df["status_change"] == 1)  
-        & (df["occupied"] == 1) 
-        & (
-            df["numeroStallo"] == df["numeroStallo"].shift()
-        ) 
-        & (
-            df["status_change"] == df["status_change"].shift()
-        )  
-        & (df["occupied"] == df["occupied"].shift())  
+        (df["status_change"] == 1)
+        & (df["occupied"] == 1)
+        & (df["numeroStallo"] == df["numeroStallo"].shift())
+        & (df["status_change"] == df["status_change"].shift())
+        & (df["occupied"] == df["occupied"].shift())
     )
 
     return df[~mask].reset_index(drop=True)
@@ -78,9 +68,7 @@ def preprocess_sensor_data(KPlace_signals, slots, storico_stallo):
 
     # Convert KPlace_signals to a DataFrame and clean data
     KPlace_signals = pd.DataFrame(KPlace_signals)
-    KPlace_signals["datetime"] = pd.to_datetime(
-        KPlace_signals["datetime"]
-    )  
+    KPlace_signals["datetime"] = pd.to_datetime(KPlace_signals["datetime"])
     KPlace_signals = KPlace_signals.drop_duplicates()  # Remove duplicate rows
 
     # Ensure columns have the correct data types
@@ -197,7 +185,7 @@ def preprocess_sensor_data(KPlace_signals, slots, storico_stallo):
 
     return df_final
 
-    
+
 def generate_slot_data(df_final, freq="4h"):
     """
     Generates aggregated occupancy data for slots based on frequence time intervals.
@@ -221,10 +209,14 @@ def generate_slot_data(df_final, freq="4h"):
     hour_intervals = pd.date_range(start=start_time, end=end_time, freq=freq)
 
     # Group by slot and time, and calculate the sum of occupancy for each group
-    occupied_slots = df.groupby(["numeroStallo", "time"]).agg({"occupied": "sum"}).reset_index()
+    occupied_slots = (
+        df.groupby(["numeroStallo", "time"]).agg({"occupied": "sum"}).reset_index()
+    )
 
     occupied_slots = occupied_slots[occupied_slots["time"].isin(hour_intervals)]
-    occupied_slots = occupied_slots.pivot(index="time", columns="numeroStallo", values="occupied")
+    occupied_slots = occupied_slots.pivot(
+        index="time", columns="numeroStallo", values="occupied"
+    )
     occupied_slots.index = pd.to_datetime(occupied_slots.index)
     occupied_slots.columns = occupied_slots.columns.astype(int)
 
@@ -362,4 +354,3 @@ def generate_hourly_transactions(transaction_data, data_type, freq="h"):
     hourly_transactions.columns = hourly_transactions.columns.astype(int)
 
     return hourly_transactions
-
