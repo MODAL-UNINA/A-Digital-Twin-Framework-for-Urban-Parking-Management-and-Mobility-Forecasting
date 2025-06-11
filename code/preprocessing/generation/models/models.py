@@ -1,12 +1,32 @@
+from typing import TypedDict
+
 import torch
-import torch.nn as nn
+from torch import nn
+
+
+class ModelArgs(TypedDict):
+    input_dim: int
+    cond_dim: int
+    hidden_dim: int
+    latent_dim: int
+    kernel_size: int
+    padding: int
+    horizon: int
+    grid_size: int
+    use_proximity: bool
 
 
 class ConvLSTMCell(nn.Module):
     def __init__(
-        self, in_channels, out_channels, kernel_size, padding, activation, frame_size
-    ):
-        super(ConvLSTMCell, self).__init__()
+        self,
+        in_channels: int,
+        out_channels: int,
+        kernel_size: int,
+        padding: int,
+        activation: str,
+        frame_size: list[int],
+    ) -> None:
+        super(ConvLSTMCell, self).__init__()  # type: ignore
         self.init_hidden_dim = out_channels
 
         if activation == "tanh":
@@ -22,11 +42,12 @@ class ConvLSTMCell(nn.Module):
         )
 
         with torch.no_grad():
+            assert self.conv.bias is not None, "Conv2d bias should not be None"
             nn.init.constant_(self.conv.bias[out_channels : 2 * out_channels], 1.0)
 
-        self.norm_i = nn.LayerNorm((out_channels, *frame_size))
-        self.norm_f = nn.LayerNorm((out_channels, *frame_size))
-        self.norm_o = nn.LayerNorm((out_channels, *frame_size))
+        self.norm_i = nn.LayerNorm([out_channels, *frame_size])
+        self.norm_f = nn.LayerNorm([out_channels, *frame_size])
+        self.norm_o = nn.LayerNorm([out_channels, *frame_size])
 
         # Initialize weights for Hadamard Products
         self.W_ci = nn.Parameter(torch.Tensor(out_channels, *frame_size))
@@ -38,7 +59,9 @@ class ConvLSTMCell(nn.Module):
         nn.init.kaiming_normal_(self.W_co)
         nn.init.kaiming_normal_(self.W_cf)
 
-    def forward(self, X, H_prev, C_prev):
+    def forward(
+        self, X: torch.Tensor, H_prev: torch.Tensor, C_prev: torch.Tensor
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         conv_output = self.conv(torch.cat([X, H_prev], dim=1))
 
         i_conv, f_conv, C_conv, o_conv = torch.chunk(conv_output, chunks=4, dim=1)
@@ -57,21 +80,24 @@ class ConvLSTMCell(nn.Module):
 
 
 class CrossAttention2D(nn.Module):
-    def __init__(self, query_dim, key_dim, value_dim, hidden_dim):
-        super(CrossAttention2D, self).__init__()
+    def __init__(
+        self, query_dim: int, key_dim: int, value_dim: int, hidden_dim: int
+    ) -> None:
+        super(CrossAttention2D, self).__init__()  # type: ignore
         self.query_conv = nn.Conv2d(query_dim, hidden_dim, kernel_size=1)
         self.key_conv = nn.Conv2d(key_dim, hidden_dim, kernel_size=1)
         self.value_conv = nn.Conv2d(value_dim, hidden_dim, kernel_size=1)
         self.softmax = nn.Softmax(dim=-1)
         self.output_conv = nn.Conv2d(hidden_dim, query_dim, kernel_size=1)
 
-    def forward(self, query, key, value):
+    def forward(
+        self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         """
         query: [B, query_dim, H, W]
         key: [B, key_dim, H, W]
         value: [B, value_dim, H, W]
         """
-
         Q = self.query_conv(query)
         K = self.key_conv(key)
         V = self.value_conv(value)
@@ -88,12 +114,13 @@ class CrossAttention2D(nn.Module):
         context = context.view(B, C, H, W)
 
         output = self.output_conv(context)
+
         return output, attention_weights
 
 
 class Encoder(nn.Module):
-    def __init__(self, **model_args):
-        super(Encoder, self).__init__()
+    def __init__(self, model_args: ModelArgs) -> None:
+        super(Encoder, self).__init__()  # type: ignore
 
         self.input_dim = model_args["cond_dim"]
         self.hidden_dim = model_args["hidden_dim"]
@@ -245,7 +272,7 @@ class Encoder(nn.Module):
                     kernel_size=self.kernel,
                     padding=self.padding,
                     activation="tanh",
-                    frame_size=(self.height, self.width),
+                    frame_size=[self.height, self.width],
                 )
                 for i in range(len(self.dim_init))
             ]
@@ -260,13 +287,17 @@ class Encoder(nn.Module):
             self.last_hidden_dim * 2 * self.height * self.width, self.latent_dim
         )
 
-    def reparameterize(self, mu, logvar):
+    def reparameterize(self, mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor:
         std = torch.exp(0.5 * logvar)
         eps = torch.randn_like(std)
         return mu + eps * std
 
-    def forward(self, x):
-        pool_idx = []
+    def forward(
+        self, x: torch.Tensor
+    ) -> tuple[
+        torch.Tensor, torch.Tensor, torch.Tensor, list[torch.Tensor], torch.Tensor
+    ]:
+        pool_idx: list[torch.Tensor] = []
         seq_len = x.shape[2]
 
         # Convolutional block 1
@@ -303,18 +334,18 @@ class Encoder(nn.Module):
             ).to(h.device)
 
             # Initialize hidden state
-            H = torch.zeros(h.shape[0], self.dim_final[i], self.height, self.width).to(
+            tH = torch.zeros(h.shape[0], self.dim_final[i], self.height, self.width).to(
                 h.device
             )
 
             # Initialize cell state
-            C = torch.zeros(h.shape[0], self.dim_final[i], self.height, self.width).to(
+            tC = torch.zeros(h.shape[0], self.dim_final[i], self.height, self.width).to(
                 h.device
             )
 
             for t in range(seq_len):
-                H, C = lstm_layer(h[:, :, t], H, C)
-                output_matrix[:, :, t] = H
+                tH, tC = lstm_layer(h[:, :, t], tH, tC)
+                output_matrix[:, :, t] = tH
 
             h = output_matrix
 
@@ -331,8 +362,8 @@ class Encoder(nn.Module):
 
 
 class Generator(nn.Module):
-    def __init__(self, **model_args):
-        super(Generator, self).__init__()
+    def __init__(self, model_args: ModelArgs) -> None:
+        super(Generator, self).__init__()  # type: ignore
 
         self.input_dim = model_args["input_dim"]
         self.hidden_dim = model_args["hidden_dim"]
@@ -375,7 +406,7 @@ class Generator(nn.Module):
                     kernel_size=self.kernel,
                     padding=self.padding,
                     activation="tanh",
-                    frame_size=(self.height, self.width),
+                    frame_size=[self.height, self.width],
                 )
                 for i in range(len(self.in_sizes))
             ]
@@ -415,106 +446,104 @@ class Generator(nn.Module):
         self.relu2 = nn.ReLU()
         self.conv3 = nn.Conv3d(
             self.last_hidden_dim,
-            self.hidden * 4,
+            self.hidden_dim * 4,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn3 = nn.BatchNorm3d(self.hidden * 4)
+        self.bn3 = nn.BatchNorm3d(self.hidden_dim * 4)
         self.relu3 = nn.ReLU()
 
         self.conv4 = nn.Conv3d(
-            self.hidden * 4,
-            self.hidden * 4,
+            self.hidden_dim * 4,
+            self.hidden_dim * 4,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn4 = nn.BatchNorm3d(self.hidden * 4)
+        self.bn4 = nn.BatchNorm3d(self.hidden_dim * 4)
         self.relu4 = nn.ReLU()
         self.conv5 = nn.Conv3d(
-            self.hidden * 4,
-            self.hidden * 4,
+            self.hidden_dim * 4,
+            self.hidden_dim * 4,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn5 = nn.BatchNorm3d(self.hidden * 4)
+        self.bn5 = nn.BatchNorm3d(self.hidden_dim * 4)
         self.relu5 = nn.ReLU()
         self.conv6 = nn.Conv3d(
-            self.hidden * 4,
-            self.hidden * 2,
+            self.hidden_dim * 4,
+            self.hidden_dim * 2,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn6 = nn.BatchNorm3d(self.hidden * 2)
+        self.bn6 = nn.BatchNorm3d(self.hidden_dim * 2)
         self.relu6 = nn.ReLU()
 
         self.conv7 = nn.Conv3d(
-            self.hidden * 2,
-            self.hidden * 2,
+            self.hidden_dim * 2,
+            self.hidden_dim * 2,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn7 = nn.BatchNorm3d(self.hidden * 2)
+        self.bn7 = nn.BatchNorm3d(self.hidden_dim * 2)
         self.relu7 = nn.ReLU()
         self.conv8 = nn.Conv3d(
-            self.hidden * 2,
-            self.hidden,
+            self.hidden_dim * 2,
+            self.hidden_dim,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn8 = nn.BatchNorm3d(self.hidden)
+        self.bn8 = nn.BatchNorm3d(self.hidden_dim)
         self.relu8 = nn.ReLU()
 
         self.conv9 = nn.Conv3d(
-            self.hidden,
-            self.hidden,
+            self.hidden_dim,
+            self.hidden_dim,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn9 = nn.BatchNorm3d(self.hidden)
+        self.bn9 = nn.BatchNorm3d(self.hidden_dim)
         self.relu9 = nn.ReLU()
         self.conv10 = nn.Conv3d(
-            self.hidden,
-            self.hidden,
+            self.hidden_dim,
+            self.hidden_dim,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-        self.bn10 = nn.BatchNorm3d(self.hidden)
+        self.bn10 = nn.BatchNorm3d(self.hidden_dim)
         self.relu10 = nn.ReLU()
 
         self.final_conv = nn.Conv3d(
-            self.hidden,
+            self.hidden_dim,
             self.input_dim,
             kernel_size=self.kernel_size,
             stride=(1, 1, 1),
             padding=self.padding_size,
         )
-
         self.unpool = nn.MaxUnpool3d(kernel_size=(1, 2, 2), stride=(1, 2, 2))
-
         self.final_activation = nn.Sigmoid()
 
-    def forward(self, z, last_map, indices):
+    def forward(
+        self, z: torch.Tensor, last_map: torch.Tensor, indices: list[int]
+    ) -> torch.Tensor:
         seq_len = last_map.shape[2]
 
         # FC layer
         z_expanded = self.fc(self.dropout(self.initial_fc(z))).view(
             z.shape[0], -1, self.height, self.width
         )
-
         x = z_expanded.unsqueeze(2).repeat(1, 1, seq_len, 1, 1)
-
         x = torch.cat([last_map, x], dim=1)
 
         # Convolutional LSTM
-        output_state = []
+        output_state: list[tuple[torch.Tensor, torch.Tensor]] = []
         for i, lstm_layer in enumerate(self.lstm_layers):
             # Initialize output
             output = torch.zeros(
@@ -522,26 +551,26 @@ class Generator(nn.Module):
             ).to(x.device)
 
             # Initialize Hidden State
-            H = torch.zeros(x.shape[0], self.out_sizes[i], self.height, self.width).to(
+            tH = torch.zeros(x.shape[0], self.out_sizes[i], self.height, self.width).to(
                 x.device
             )
 
             # Initialize Cell Input
-            C = torch.zeros(x.shape[0], self.out_sizes[i], self.height, self.width).to(
+            tC = torch.zeros(x.shape[0], self.out_sizes[i], self.height, self.width).to(
                 x.device
             )
 
             for t in range(seq_len):
-                H, C = lstm_layer(x[:, :, t], H, C)
+                tH, tC = lstm_layer(x[:, :, t], tH, tC)
                 # Cross-Attention
                 last_map_t = last_map[:, :, t, :, :]
-                H_att, _ = self.cross_attention[i](H, last_map_t, last_map_t)
+                H_att, _ = self.cross_attention[i](tH, last_map_t, last_map_t)
 
                 # Residual connection
-                H = H + H_att
-                output[:, :, t] = H
+                tH = tH + H_att
+                output[:, :, t] = tH
 
-            output_state.append((H, C))
+            output_state.append((tH, tC))
             x = output
 
         # Convolutional block 1
@@ -570,12 +599,12 @@ class Generator(nn.Module):
 
         h = self.final_activation(h)
 
-        return h, output_state
+        return h
 
 
 class Critic(nn.Module):
-    def __init__(self, **model_args):
-        super(Critic, self).__init__()
+    def __init__(self, model_args: ModelArgs) -> None:
+        super(Critic, self).__init__()  # type: ignore
 
         self.input_dim = model_args["input_dim"]
         self.cond_input = model_args["cond_dim"]
@@ -585,6 +614,7 @@ class Critic(nn.Module):
         self.padding = model_args["padding"]
         self.horizon = model_args["horizon"]
         self.grid_size = model_args["grid_size"]
+        self.use_proximity = model_args["use_proximity"]
         self.kernel_size = (self.kernel, self.kernel, self.kernel)
         self.padding_size = (self.padding, self.padding, self.padding)
         self.final_horizon = self.horizon // 8
@@ -681,27 +711,28 @@ class Critic(nn.Module):
         self.bn10 = nn.BatchNorm3d(self.hidden_dim * 8)
         self.relu10 = nn.ReLU()
 
-        # Proximity layers
-        self.proximity = nn.Conv3d(
-            self.cond_input,
-            self.hidden_dim,
-            kernel_size=(1, 7, 7),
-            stride=(1, 1, 1),
-            padding=(0, 3, 3),
-        )
-        self.proximity_bn = nn.BatchNorm3d(self.hidden_dim)
-        self.proximity_relu = nn.ReLU()
-        self.proximity_fc = nn.Linear(
-            self.hidden_dim * self.grid_size * self.grid_size * self.horizon,
-            self.hidden_dim,
-        )
-        self.dropout_proximity = nn.Dropout(0.2)
-        self.proximity_fc2 = nn.Linear(self.hidden_dim, 1)
+        if self.use_proximity:
+            # Proximity layers
+            self.proximity = nn.Conv3d(
+                self.cond_input,
+                self.hidden_dim,
+                kernel_size=(1, 7, 7),
+                stride=(1, 1, 1),
+                padding=(0, 3, 3),
+            )
+            self.proximity_bn = nn.BatchNorm3d(self.hidden_dim)
+            self.proximity_relu = nn.ReLU()
+            self.proximity_fc = nn.Linear(
+                self.hidden_dim * self.grid_size * self.grid_size * self.horizon,
+                self.hidden_dim,
+            )
+            self.dropout_proximity = nn.Dropout(0.2)
+            self.proximity_fc2 = nn.Linear(self.hidden_dim, 1)
 
         self.flatten = nn.Flatten()
         self.fc = nn.Linear(self.hidden_dim * 8 * self.height * self.width * 5, 1)
 
-    def forward(self, x, mask):
+    def forward(self, x: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
         # Convolutional block 1
         h = self.relu1(self.bn1(self.conv1d_1(x)))
         h = self.relu2(self.bn2(self.conv1d_2(h)))
@@ -722,13 +753,18 @@ class Critic(nn.Module):
 
         z = self.fc(self.flatten(h))
 
-        # Proximity
-        proximity_features = self.proximity_relu(
-            self.proximity_bn(self.proximity(mask))
-        )
-        proximity_features = self.flatten(proximity_features)
-        proximity_features = self.dropout_proximity(
-            self.proximity_fc(proximity_features)
-        )
-        proximity_features = self.proximity_fc2(proximity_features)
-        return z.squeeze() + proximity_features.squeeze()
+        z = z.squeeze()
+        if self.use_proximity:
+            # Proximity
+            proximity_features = self.proximity_relu(
+                self.proximity_bn(self.proximity(mask))
+            )
+            proximity_features = self.flatten(proximity_features)
+            proximity_features = self.dropout_proximity(
+                self.proximity_fc(proximity_features)
+            )
+            proximity_features = self.proximity_fc2(proximity_features)
+
+            z = z + proximity_features.squeeze()
+
+        return z

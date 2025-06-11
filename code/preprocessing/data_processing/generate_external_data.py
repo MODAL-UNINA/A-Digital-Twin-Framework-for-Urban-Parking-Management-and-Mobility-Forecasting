@@ -1,16 +1,27 @@
 import time
+from typing import Any, Literal
 
-import openmeteo_requests
-import osmnx as ox
+import geopandas as gpd
+import openmeteo_requests  # type: ignore
+import osmnx as ox  # type: ignore
 import pandas as pd
 import requests
 import requests_cache
-from geopy.distance import geodesic
-from openmeteo_requests.Client import OpenMeteoRequestsError
-from retry_requests import retry
+from geopy.distance import geodesic  # type: ignore
+from openmeteo_requests.Client import OpenMeteoRequestsError  # type: ignore
+from retry_requests import retry  # type: ignore
+
+DataType = Literal["transactions", "amount", "roads"]
 
 
-def generate_poi(data, south, west, north, east, data_type):
+def generate_poi(
+    data: list[dict[str, Any]],
+    south: float,
+    west: float,
+    north: float,
+    east: float,
+    data_type: DataType,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Extracts and processes Points of Interest (POI) within a specified bounding box.
     Computes distances from POIs to given locations (e.g., parking meters or roads) and
@@ -25,13 +36,19 @@ def generate_poi(data, south, west, north, east, data_type):
     - poi_distances: DataFrame with distances between each location and each POI.
     - poi_categories: DataFrame mapping each location to the category of each POI.
     """
+    from typing import cast
 
     poi_data = pd.DataFrame()
 
     print("Extracting and processing Points of Interest (POI) data...")
 
     # POI's extraction
-    poi_data = ox.geometries_from_bbox(north, south, east, west, tags={"amenity": True})
+    poi_data = cast(
+        gpd.GeoDataFrame,
+        ox.geometries_from_bbox(  # type: ignore
+            north, south, east, west, tags={"amenity": True}
+        ),
+    )
     poi_data.reset_index(drop=True, inplace=True)
 
     # List of amenities to include
@@ -66,12 +83,16 @@ def generate_poi(data, south, west, north, east, data_type):
         "social_facility",
     ]
 
-    poi_data = poi_data[poi_data["amenity"].isin(amenities_good)]
+    poi_data = poi_data[
+        poi_data["amenity"].isin(  # type: ignore
+            amenities_good
+        )
+    ]
 
-    poi_data["geometry"] = poi_data["geometry"].apply(
-        lambda geom: geom.centroid
-        if geom.geom_type == "Polygon" or geom.geom_type == "MultiPolygon"
-        else geom
+    poi_data["geometry"] = poi_data["geometry"].apply(  # type: ignore
+        lambda geom: geom.centroid  # type: ignore
+        if geom.geom_type == "Polygon" or geom.geom_type == "MultiPolygon"  # type: ignore
+        else geom  # type: ignore
     )
 
     # Mapping of POI categories
@@ -106,82 +127,90 @@ def generate_poi(data, south, west, north, east, data_type):
         "social_facility": "healthcare",
     }
 
-    poi_data["category"] = poi_data["amenity"].map(categories_mapping)
+    poi_data["category"] = poi_data["amenity"].map(  # type: ignore
+        categories_mapping
+    )
 
-    categorie = poi_data["category"].unique()
+    categories = list(poi_data["category"].unique())  # type: ignore
 
     # Mapping of categories to integers
-    category_dict = {category: i for i, category in enumerate(categorie)}
+    category_dict = {category: i for i, category in enumerate(categories)}
 
-    if data_type == "transactions" or data_type == "amount":
-        # Create a dictionary with the parkimeters and their coordinates
-        parkimeters = {}
-        for parkimeter in data:
-            parkimeters[parkimeter["id"]] = {
-                "lat": parkimeter["lat"],
-                "lng": parkimeter["lng"],
+    if data_type in ["transactions", "amount"]:
+        # Create a dictionary with the parking meters and their coordinates
+        parkingmeters: dict[int, dict[str, float]] = {}
+        for parkingmeter in data:
+            parkingmeters[parkingmeter["id"]] = {
+                "lat": parkingmeter["lat"],
+                "lng": parkingmeter["lng"],
             }
 
-        # Compute the distance between each parkimeter and each POI
-        poi_distances = pd.DataFrame(columns=poi_data.index, index=parkimeters.keys())
+        # Compute the distance between each parking meter and each POI
+        poi_distances = pd.DataFrame(
+            columns=poi_data.index, index=list(parkingmeters.keys())
+        )
 
-        for _, parc in enumerate(parkimeters.keys()):
+        for _, parc in enumerate(parkingmeters.keys()):
             for idx in poi_data.index:
-                coords1 = (
-                    poi_data.loc[idx, "geometry"].y,
-                    poi_data.loc[idx, "geometry"].x,
+                coords1 = (  # type: ignore
+                    poi_data.loc[idx, "geometry"].y,  # type: ignore
+                    poi_data.loc[idx, "geometry"].x,  # type: ignore
                 )
                 coords2 = (
-                    float(parkimeters[parc]["lat"]),
-                    float(parkimeters[parc]["lng"]),
+                    float(parkingmeters[parc]["lat"]),
+                    float(parkingmeters[parc]["lng"]),
                 )
-                poi_distances.loc[parc, idx] = geodesic(coords1, coords2).kilometers
+                poi_distances.loc[parc, idx] = geodesic(coords1, coords2).kilometers  # type: ignore
 
-        poi_distances = poi_distances.sort_index()
+        poi_distances = poi_distances.sort_index()  # type: ignore
 
-        # Create a dataframe with the categories of each POI for each parkimeter
-        poi_categories = pd.DataFrame(columns=poi_data.index, index=parkimeters.keys())
+        # Create a dataframe with the categories of each POI for each parking meter
+        poi_categories = pd.DataFrame(
+            columns=poi_data.index, index=list(parkingmeters.keys())
+        )
 
-        for parc in parkimeters.keys():
+        for parc in parkingmeters.keys():
             for idx in poi_data.index:
                 poi_categories.loc[parc, idx] = category_dict[
                     poi_data.loc[idx, "category"]
                 ]
 
-        poi_categories = poi_categories.sort_index()
+        poi_categories = poi_categories.sort_index()  # type: ignore
 
-    elif data_type == "roads":
+    else:
         # Create a dictionary with the roads and their coordinates
-        roads = {}
+        roads: dict[int, list[dict[str, Any]]] = {}
         for road in data:
             if road["sqlID"] not in roads:
                 roads[road["sqlID"]] = []
-            roads[road["sqlID"]] += road["geofences"][0]["path"] + [
-                road["geofences"][0]["center"]
-            ]
+
+            center = road["geofences"][0]["center"]
+            if not isinstance(center, list):
+                center = [center]
+            roads[road["sqlID"]] += road["geofences"][0]["path"] + center
 
         # Compute the distance between each road and each POI
-        poi_distances = pd.DataFrame(columns=poi_data.index, index=roads.keys())
+        poi_distances = pd.DataFrame(columns=poi_data.index, index=list(roads.keys()))
 
         for road in roads.keys():
             for idx in poi_data.index:
                 poi_distances.loc[road, idx] = min(
                     [
-                        geodesic(
+                        geodesic(  # type: ignore
                             (roads[road][i]["lat"], roads[road][i]["lng"]),
                             (
-                                poi_data.loc[idx, "geometry"].y,
-                                poi_data.loc[idx, "geometry"].x,
+                                poi_data.loc[idx, "geometry"].y,  # type: ignore
+                                poi_data.loc[idx, "geometry"].x,  # type: ignore
                             ),
                         ).kilometers
                         for i in range(len(roads[road]))
                     ]
                 )
 
-        poi_distances = poi_distances.sort_index()
+        poi_distances = poi_distances.sort_index()  # type: ignore
 
         # Create a dataframe with the categories of each POI for each road
-        poi_categories = pd.DataFrame(columns=poi_data.index, index=roads.keys())
+        poi_categories = pd.DataFrame(columns=poi_data.index, index=list(roads.keys()))
 
         for road in roads.keys():
             for idx in poi_data.index:
@@ -189,12 +218,14 @@ def generate_poi(data, south, west, north, east, data_type):
                     poi_data.loc[idx, "category"]
                 ]
 
-        poi_categories = poi_categories.sort_index()
+        poi_categories = poi_categories.sort_index()  # type: ignore
 
     return poi_distances, poi_categories
 
 
-def generate_events(events, south, west, north, east):
+def generate_events(
+    events: pd.DataFrame, south: float, west: float, north: float, east: float
+) -> pd.DataFrame:
     """
     Process events data.
 
@@ -209,7 +240,9 @@ def generate_events(events, south, west, north, east):
     print("Processing events data...")
 
     # Remove rows with missing latitude or longitude values
-    events = events.dropna(subset=["Latitude", "Longitude"])
+    events = events.dropna(  # type: ignore
+        subset=["Latitude", "Longitude"]
+    )
 
     # Convert latitude and longitude to float type for consistency
     events["Latitude"] = events["Latitude"].astype(float)
@@ -224,23 +257,50 @@ def generate_events(events, south, west, north, east):
     ]
 
     # Convert 'Date' column to datetime format, extracting only the date portion
-    events["Date"] = pd.to_datetime(events["Date"].str.split(" ").str[0])
+    events["Date"] = pd.to_datetime(  # type: ignore
+        events["Date"]
+        .str.split(" ")  # type: ignore
+        .str[0]
+    )
 
     # Identify and remove duplicate event entries, keeping the first occurrence
-    duplicates = events.duplicated()
-    if duplicates.any():
+    duplicates = events.duplicated()  # type: ignore
+    if duplicates.any():  # type: ignore
         events.drop_duplicates(inplace=True, ignore_index=True, keep="first")
 
     # Group events by 'Date' and 'Type', then count occurrences
-    events_final = events.groupby(["Date", "Type"]).size().unstack(fill_value=0)
+    events_final = (
+        events.groupby(  # type: ignore
+            ["Date", "Type"]
+        )
+        .size()
+        .unstack(fill_value=0)
+    )
 
     # Sort the final DataFrame by date in ascending order
-    events_final.sort_values(by="Date", inplace=True)
+    events_final.sort_values(  # type: ignore
+        by="Date", inplace=True
+    )
+
+    events_types = [
+        "Arte e Mostre",
+        "Concerti",
+        "Cultura ed altri eventi",
+        "Feste, Fiere e Sagre",
+        "Locali e Pub",
+        "Rassegne, Festival, Manifestazioni",
+        "Teatro",
+    ]
+    events_final = events_final.reindex(  # type: ignore
+        events_types, axis=1, fill_value=0
+    )
 
     return events_final
 
 
-def download_meteo(start_date, end_date, lat, lon):
+def download_weather(
+    start_date: pd.Timestamp, end_date: pd.Timestamp, lat: float, lon: float
+) -> pd.DataFrame:
     """
     Downloads meteorological data from the remote OpenMeteo API within a specified date range.
 
@@ -256,7 +316,9 @@ def download_meteo(start_date, end_date, lat, lon):
     """
 
     # Setup the Open-Meteo API client with cache and retry on error
-    cache_session = requests_cache.CachedSession(".cache", expire_after=-1)
+    cache_session = requests_cache.CachedSession(
+        "openmeteo_cache", use_cache_dir=True, expire_after=-1
+    )
     retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
     openmeteo = openmeteo_requests.Client(session=retry_session)
 
@@ -272,7 +334,7 @@ def download_meteo(start_date, end_date, lat, lon):
 
     print("Downloading weather data from OpenMeteo API...")
 
-    params = {
+    params = {  # type: ignore
         "latitude": lat,
         "longitude": lon,
         "start_date": start_date_download,
@@ -288,30 +350,37 @@ def download_meteo(start_date, end_date, lat, lon):
 
     try:
         # Request weather data from Open-Meteo API
-        responses = openmeteo.weather_api(url, params=params)
+        responses = openmeteo.weather_api(  # type: ignore
+            url, params=params
+        )
 
         response = responses[0]
 
         # Process hourly data. The order of variables needs to be the same as requested.
         hourly = response.Hourly()
-        hourly_precipitation = hourly.Variables(0).ValuesAsNumpy()
-        hourly_temperature_2m = hourly.Variables(1).ValuesAsNumpy()
-        hourly_wind_speed_10m = hourly.Variables(2).ValuesAsNumpy()
-        hourly_relative_humidity_2m = hourly.Variables(3).ValuesAsNumpy()
+        assert hourly is not None, "Hourly data is missing in the response."
+        hourly_precipitation = hourly.Variables(0).ValuesAsNumpy()  # type: ignore
+        hourly_temperature_2m = hourly.Variables(1).ValuesAsNumpy()  # type: ignore
+        hourly_wind_speed_10m = hourly.Variables(2).ValuesAsNumpy()  # type: ignore
+        hourly_relative_humidity_2m = hourly.Variables(3).ValuesAsNumpy()  # type: ignore
 
         # Construct DataFrame for hourly weather data
         hourly_data = {
-            "date": pd.date_range(
-                start=pd.to_datetime(hourly.Time(), unit="s", utc=True),
-                end=pd.to_datetime(hourly.TimeEnd(), unit="s", utc=True),
+            "date": pd.date_range(  # type: ignore
+                start=pd.to_datetime(  # type: ignore
+                    hourly.Time(), unit="s", utc=True
+                ),
+                end=pd.to_datetime(  # type: ignore
+                    hourly.TimeEnd(), unit="s", utc=True
+                ),
                 freq=pd.Timedelta(seconds=hourly.Interval()),
                 inclusive="left",
             )
         }
-        hourly_data["temperature_2m"] = hourly_temperature_2m
-        hourly_data["relative_humidity_2m"] = hourly_relative_humidity_2m
-        hourly_data["precipitation"] = hourly_precipitation
-        hourly_data["wind_speed_10m"] = hourly_wind_speed_10m
+        hourly_data["temperature_2m"] = hourly_temperature_2m  # type: ignore
+        hourly_data["relative_humidity_2m"] = hourly_relative_humidity_2m  # type: ignore
+        hourly_data["precipitation"] = hourly_precipitation  # type: ignore
+        hourly_data["wind_speed_10m"] = hourly_wind_speed_10m  # type: ignore
 
         all_hourly_data = pd.DataFrame(data=hourly_data)
 
@@ -330,28 +399,32 @@ def download_meteo(start_date, end_date, lat, lon):
     # Initialize an empty DataFrame for processed weather data
     weather_data = pd.DataFrame()
 
-    all_hourly_data["date"] = pd.to_datetime(all_hourly_data["date"]).dt.tz_localize(
-        None
-    )
+    all_hourly_data["date"] = pd.to_datetime(  # type: ignore
+        all_hourly_data["date"]
+    ).dt.tz_localize(None)
 
     # Process and filter weather variables within the requested date range
-    hourly_precipitation = all_hourly_data[["date", "precipitation"]].set_index("date")
+    hourly_precipitation = all_hourly_data[["date", "precipitation"]].set_index(  # type: ignore
+        "date"
+    )
     hourly_precipitation.index = hourly_precipitation.index - pd.Timedelta(hours=1)
     weather_data["precipitation"] = hourly_precipitation.loc[start_date:end_date]
 
-    hourly_temperature_2m = all_hourly_data[["date", "temperature_2m"]].set_index(
+    hourly_temperature_2m = all_hourly_data[["date", "temperature_2m"]].set_index(  # type: ignore
         "date"
     )
     weather_data["temperature"] = hourly_temperature_2m.loc[start_date:end_date]
 
-    hourly_wind_speed_10m = all_hourly_data[["date", "wind_speed_10m"]].set_index(
+    hourly_wind_speed_10m = all_hourly_data[["date", "wind_speed_10m"]].set_index(  # type: ignore
         "date"
     )
     weather_data["wind"] = hourly_wind_speed_10m.loc[start_date:end_date]
 
     hourly_relative_humidity_2m = all_hourly_data[
         ["date", "relative_humidity_2m"]
-    ].set_index("date")
+    ].set_index(  # type: ignore
+        "date"
+    )
     weather_data["humidity"] = hourly_relative_humidity_2m.loc[start_date:end_date]
 
     return weather_data

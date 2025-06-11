@@ -1,0 +1,25 @@
+services:
+  preprocessing:
+    build:
+      context: install/preprocessing
+    command: /bin/bash
+    restart: unless-stopped
+    volumes:
+      - ./code/preprocessing:/code
+      - ./data/preprocessing:/data:ro
+      - ./results/preprocessing:/results
+    working_dir: /code
+    environment:
+      - DATA_DIR=/data
+      - RESULTS_DIR=/results
+      - CUDA_VISIBLE_DEVICES=0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 'all'
+              capabilities: [gpu]
+    # set interactive mode
+    stdin_open: true
+    tty: true

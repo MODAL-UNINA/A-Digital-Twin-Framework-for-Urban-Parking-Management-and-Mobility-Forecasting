@@ -8,8 +8,8 @@ dependencies:
   - geopandas=0.14
   - geopy=2.4.1
   - holidays=0.47
-  - osmnx
-  - pandas<2
+  - osmnx=1.9.4
+  - pandas=1.5.3
   - pip=24.3
   - pymannkendall=1.4
   - pytorch=2.5

@@ -22,37 +22,49 @@ Researchers interested in accessing the data may contact the corresponding autho
 The weather and air quality data, which are open source, can be downloaded from \url{https://open-meteo.com}, while the Points of Interest data, obtained through OpenStreetMap, can be accessed at \url{https://www.openstreetmap.org}.
 
 
-## Requirements
+## Installation
 
-### 1. Forecasting and Generation  
-To set up the environment for forecasting and data generation, create a python environment using the provided `environment.yaml` file:  
+### 0. Requirements
+All the code can be executed through Docker with nvidia-container-toolkit set up.
+
+### 1. Build of the Docker Image
+Run the following command from the terminal:
+
 ```sh
-conda env create -f environment.yaml
-conda activate <your_environment_name>
+docker compose build
 ```
 
-### 2. Scheduling Execution
- 
-Ensure that the following tools are installed:  
-- **7-Zip**: Required to extract project files.  
-  - On Windows: Download from [https://www.7-zip.org/](https://www.7-zip.org/)  
-  - On Linux: Install using `sudo apt install p7zip-full` (Debian/Ubuntu) or `sudo pacman -S p7zip` (Arch)  
-- **HiGHS version 1.7**: Must be installed in the `scheduling` directory.  
-  - If not already available, download it from [HiGHS GitHub](https://github.com/ERGO-Code/HiGHS)  
+this will install all the necessary for the execution of each step.
 
-#### Execution Instructions  
-1. Extract the main archive using 7-Zip:  
-   ```sh
-   7z x main_zip/main.7z.001 -o"./"
-   ```
-2. Extract the highs solver:  
-   ```sh
-   tar -xzf HiGHS.v1.7.2.x86_64-linux-gnu-cxx03.tar.gz
-   mv bin/highs ./
-   mv lib/libhighs.so.1.7.2 ./
-   ```
-  
-4. Run the main script using the shell script:
-   ```sh
-    bash run.sh -e "2025-01-12" -o outputs -i inputs
- 
+### 2. Running the newly generated image as container
+
+Run the following command from the terminal:
+
+```sh
+docker compose run --rm preprocessing
+```
+
+this will start a new shell session in the generated container
+
+## Execution
+### 1. Forecasting
+
+From the shell, run the following for the forecasting:
+
+```sh
+bash run_forecasting.sh
+```
+
+### 2. Generation
+For the generation, run the following:
+
+```sh
+bash run_generation.sh
+```
+
+### 3. Scheduling
+For the agent scheduling for 12th January 2025, run the following:
+
+```sh
+bash run_scheduling.sh 2025-01-12
+```
