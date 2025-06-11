@@ -4,6 +4,7 @@ import os
 import random
 from pathlib import Path
 from typing import Any
+from zipfile import ZipFile
 
 import numpy as np
 import pandas as pd
@@ -17,7 +18,7 @@ from data_processing.mobility_data_processing import (
     preprocess_sensor_data,
 )
 from generation.models.models import Critic, Encoder, Generator, ModelArgs
-from generation.utils import add_conditions, grid_building, ScenarioType
+from generation.utils import ScenarioType, add_conditions, grid_building
 from torch.utils.data import DataLoader, TensorDataset
 
 parser = argparse.ArgumentParser(allow_abbrev=False)
@@ -397,8 +398,9 @@ if __name__ == "__main__":
     with open(data_dir / "AnagraficaStallo.json", "r") as f:
         slots = json.load(f)
 
-    with open(data_dir / "KPlace_Signals.json", "r") as f:
-        KPlace_signals = json.load(f)
+    with ZipFile(data_dir / "KPlace_Signals.json.zip") as zf:
+        with zf.open("KPlace_Signals.json") as f:
+            KPlace_signals = json.load(f)
 
     with open(data_dir / "StoricoStallo.json", "r") as f:
         slots_history = json.load(f)
