@@ -11,21 +11,33 @@ The results highlight the framework potential to improve urban mobility manageme
 
 
 ## Acknowledgments
-The authors would like to thank K-city srl company (https://www.k-city.eu/) for their support, collaboration, and provision of the data. In particular, special thanks go to Dr. Giuseppe Morelli and Dr. Sebastiano Spina. The authors also thank the city of Caserta, including its mayor and staff, for their support.
+The authors would like to thank [K-city srl company](https://www.k-city.eu/) for their support, collaboration, and provision of the data. In particular, special thanks go to Dr. Giuseppe Morelli and Dr. Sebastiano Spina. The authors also thank the city of Caserta, including its mayor and staff, for their support.
 
 
 
 ## Data Availability
-The data used in this study are not publicly available due to confidentiality agreements and data protection policies. However, all relevant specifications regarding the data structure, format, and preprocessing procedures are provided in the accompanying GitHub repository. 
-To facilitate adaptation of the framework to new settings, we also provide sample files containing synthetic or anonymized single entries for each dataset. These examples demonstrate the required input format and schema for integration with the predictive, generative, and scheduling modules. For the agent shift calendar, a compiled and transformed version is included to illustrate how the anonymized data feeds into the optimization model.
-Researchers interested in accessing the data may contact the corresponding author to discuss potential access arrangements under appropriate confidentiality agreements.
-The weather and air quality data, which are open source, can be downloaded from https://open-meteo.com, while the Points of Interest data, obtained through OpenStreetMap, can be accessed at https://www.openstreetmap.org.
+The full data used in this study are not publicly available due to confidentiality agreements and data protection policies. However, a subsample of such data with period April-May 2025 is provided for all the tools, with the exception of the agent shift calendar, whose data feeds have been anonymized.
+Researchers interested in accessing the full data may contact the corresponding author to discuss potential access arrangements under appropriate confidentiality agreements.
+The weather and air quality data, which are open source, can be downloaded from [Open-Meteo](https://open-meteo.com), while the Points of Interest data, obtained through [OpenStreetMap](https://www.openstreetmap.org).
 
 
 ## Installation
 
 ### 0. Prerequisites
-All the code can be executed through Docker with nvidia-container-toolkit set up. All has been tested with Ubuntu 22.04 LTS.
+All the code can be executed through [Docker Engine](https://docs.docker.com/engine/). The reported installation instructions are valid with Ubuntu 22.04 LTS and similar.
+
+For the execution of the scripts with a **CUDA-capable GPU**, we require the GPU and NVidia drivers compatible with **CUDA 12.1 or newer** and the installation of [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html). Furthermore, given the large size of the models for the training, a GPU with at least 24 GB of VRAM is required for this example data. For the complete data and the model of the case study we need at least 48 GB of VRAM.
+
+### 1. Data download
+The available data for the execution of all the scripts is provided at the following [link](https://drive.google.com/file/d/1NM-1uefJ4qnCHVwK-nNSkGSOA63hU5v8/view?usp=drive_link) (approximate size: 15 GB uncompressed).
+
+Download the zip file at the top folder of this project and unzip it with the following command from the terminal:
+
+```sh
+unzip Data_DTMOB.zip -d data/
+```
+
+this will create two folders inside data: `preprocessing` and `webapp`.
 
 ### 1. Build of the Docker Image
 Create a file named `.env` at the main folder with the following content:
@@ -62,7 +74,7 @@ From the shell, run the following for the forecasting:
 bash run_forecasting.sh
 ```
 
-The results are saved in the results/preprocessing/forecasting directory.
+The results are saved in the `results/preprocessing/forecasting` folder relative to the project folder.
 
 #### 2. Generation
 For the generation, run the following:
@@ -71,7 +83,7 @@ For the generation, run the following:
 bash run_generation.sh
 ```
 
-The results are saved in the results/preprocessing/generation directory.
+The results are saved in the `results/preprocessing/generation` folder.
 
 #### 3. Scheduling
 For the agent scheduling for 12th January 2025, run the following:
@@ -79,6 +91,8 @@ For the agent scheduling for 12th January 2025, run the following:
 ```sh
 bash run_scheduling.sh 2025-01-12
 ```
+
+the calendar output is saved in `results/preprocessing/scheduling` folder.
 
 ### 2. Web application
 #### Starting the web application container

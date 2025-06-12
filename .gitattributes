@@ -1,2 +1,0 @@
-data/preprocessing/** filter=lfs diff=lfs merge=lfs -text
-data/webapp/** filter=lfs diff=lfs merge=lfs -text

@@ -16,7 +16,6 @@ def load_files(
     """
     import json
     import pickle as pkl
-    from zipfile import ZipFile
 
     import pandas as pd
 
@@ -24,13 +23,8 @@ def load_files(
 
     for key, value in pkl_files_dict.items():
         filepath = data_path / value
-        if value.endswith(".zip"):
-            with ZipFile(filepath) as zf:
-                with zf.open(value.split("/")[-1].removesuffix(".zip")) as f:
-                    data = pkl.load(f)
-        else:
-            with open(filepath, "rb") as f:
-                data = pkl.load(f)
+        with open(filepath, "rb") as f:
+            data = pkl.load(f)
         out_data[key] = data
         print(f"{module_name}: loaded {key} from {filepath}")
 

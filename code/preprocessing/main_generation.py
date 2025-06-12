@@ -4,12 +4,12 @@ import os
 import random
 from pathlib import Path
 from typing import Any
-from zipfile import ZipFile
 
 import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
+from common.generation.models import Critic, Encoder, Generator, ModelArgs
 from data_processing.generate_external_data import download_weather
 from data_processing.mobility_data_processing import (
     generate_hourly_transactions,
@@ -17,7 +17,6 @@ from data_processing.mobility_data_processing import (
     get_registry_by_key,
     preprocess_sensor_data,
 )
-from common.generation.models import Critic, Encoder, Generator, ModelArgs
 from generation.utils import ScenarioType, add_conditions, grid_building
 from torch.utils.data import DataLoader, TensorDataset
 
@@ -398,9 +397,8 @@ if __name__ == "__main__":
     with open(data_dir / "AnagraficaStallo.json", "r") as f:
         slots = json.load(f)
 
-    with ZipFile(data_dir / "KPlace_Signals.json.zip") as zf:
-        with zf.open("KPlace_Signals.json") as f:
-            KPlace_signals = json.load(f)
+    with open("KPlace_Signals.json") as f:
+        KPlace_signals = json.load(f)
 
     with open(data_dir / "StoricoStallo.json", "r") as f:
         slots_history = json.load(f)
