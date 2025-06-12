@@ -397,7 +397,7 @@ if __name__ == "__main__":
     with open(data_dir / "AnagraficaStallo.json", "r") as f:
         slots = json.load(f)
 
-    with open("KPlace_Signals.json") as f:
+    with open(data_dir / "KPlace_Signals.json") as f:
         KPlace_signals = json.load(f)
 
     with open(data_dir / "StoricoStallo.json", "r") as f:
