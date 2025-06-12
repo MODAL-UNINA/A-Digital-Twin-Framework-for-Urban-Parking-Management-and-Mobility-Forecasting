@@ -1,0 +1,43 @@
+{% with tabname='map' %}
+<div class="tab-container">
+    <div class="row">
+        <div class="col">
+            <div class="text-justify">
+                {% include 'map_descr.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="tab-elem-content">
+                {% include 'loading.html' %}
+                <div class="inner-content" id="inner-map-content">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    Real-time Map Information
+                                </div>
+                                <ul class="list-group list-group-flush" id="map-info">
+                                    <li class="list-group-item">Loading map info ...</li>
+                                </ul>
+                                <div class="card-footer text-body-secondary">
+                                    &copy; <a href="https://open-meteo.com/">Open Meteo</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div id="map-context"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

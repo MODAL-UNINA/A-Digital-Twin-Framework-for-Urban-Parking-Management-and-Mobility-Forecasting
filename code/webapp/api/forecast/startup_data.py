@@ -1,0 +1,63 @@
+from api.general.utils.startup_data import (
+    CSVMapping,
+    CSVOptions,
+    JsonMapping,
+    PklMapping,
+    StartupData,
+)
+
+STARTUP_DATA = StartupData(
+    module_name="Forecast",
+    pkl_files_data=PklMapping(
+        events="events_all.pkl",
+        hourlies__transactions="transactions_number_parkimeters_all.pkl",
+        hourlies__amount="transactions_amount_parkimeters_all.pkl",
+        data_scalers__transactions="transactions/data_scaler.pkl",
+        data_scalers__amount="amount/data_scaler.pkl",
+        data_scalers__roads="roads/data_scaler.pkl",
+        exog_scalers__transactions="transactions/exog_scaler.pkl",
+        exog_scalers__amount="amount/exog_scaler.pkl",
+        exog_scalers__roads="roads/exog_scaler.pkl",
+    ),
+    json_files_data=JsonMapping(
+        index_map="index_map.json",
+    ),
+    csv_files_data=CSVMapping(
+        weather__prec=CSVOptions(
+            filepath="precipitation_all.csv",
+            args=dict(index_col=0),
+        ),
+        weather__temp=CSVOptions(
+            filepath="temperature_all.csv",
+            args=dict(index_col=0),
+        ),
+        weather__wind=CSVOptions(
+            filepath="wind_all.csv",
+            args=dict(index_col=0),
+        ),
+        weather__humidity=CSVOptions(
+            filepath="humidity_all.csv",
+            args=dict(index_col=0),
+        ),
+        hourlies__roads=CSVOptions(
+            filepath="roads_data.csv",
+            args=dict(index_col=0),
+        ),
+        poi_dists__parkingmeters=CSVOptions(
+            filepath="distances_poi_new.csv",
+            args=dict(index_col=0),
+        ),
+        poi_dists__roads=CSVOptions(
+            filepath="distances_poi_strade.csv",
+            args=dict(index_col=0),
+        ),
+        poi_categories__parkingmeters=CSVOptions(
+            filepath="poi_categories_new.csv",
+            args=dict(index_col=0),
+        ),
+        poi_categories__roads=CSVOptions(
+            filepath="distances_poi_strade.csv",
+            args=dict(index_col=0),
+        ),
+    ),
+)

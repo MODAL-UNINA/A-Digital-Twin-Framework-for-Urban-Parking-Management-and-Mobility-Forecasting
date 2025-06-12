@@ -1,0 +1,248 @@
+{% with tabname='distrib' %}
+<div class="tab-container">
+    <div class="row">
+        <div class="col">
+            <div class="text-justify">
+                {% include 'distrib_descr.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="tab-elem-content">
+                {% include 'loading.html' %}
+                <div class="inner-content" id="inner-distrib-content">
+                    <div class="row">
+                        <!-- Main selection -->
+                        <div class="col-25perc sticky-top">
+                            <div class="row my-2">
+                                <div class="col">
+                                    <div class="card card-well">
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'label.html' with category='zone' capcategoryname='Zone' kind='select' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'selector.html' with category='zone' categorynames='zones' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'label.html' with category='date' capcategoryname='Week date' kind='input' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        <input id="{{ tabname }}-date-input" class="form-control" type="date" disabled></input>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'label.html' with category='hourslot' capcategoryname='Hour slot' kind='select' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'selector.html' with category='hourslot' categorynames='hour slots' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'submitbutton.html' with category='main' %}
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-2">
+                                <div class="col">
+                                    <div class="card card-well">
+                                        <div class="card-body">
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    Map
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    {% include 'minimap.html' %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row my-1">
+                                <div class="col">
+                                    <div class="card card-container">
+                                        <div class="card-body">
+                                            {% include 'loading.html' with tabname='distrib-transactions' %}
+                                            <div class="inner-content" id="inner-distrib-transactions-content">
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <h5>Transactions</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="text-start">
+                                                                    <img src="" alt="Distribution" id="distrib-transactions_count-context" class="img-fluid distrib-img">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <h5>Revenue</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="text-start">
+                                                                    <img src="" alt="Distribution" id="distrib-transactions_amount-context" class="img-fluid distrib-img">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-30perc">
+                                                        <div class="card card-well">
+                                                            <div class="card-body">
+                                                                <form>
+                                                                    <div class="row my-1">
+                                                                        <div class="col">
+                                                                            {% include 'label.html' with category='parkingmeter' capcategoryname='Parking meter' kind='select' %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row my-1">
+                                                                        <div class="col">
+                                                                            {% include 'selector.html' with category='parkingmeter' categorynames='parking meters' %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row my-1">
+                                                                        <div class="col">
+                                                                            {% include 'submitbutton.html' with category='transactions' %}
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col">
+                                    <div class="card card-container">
+                                        <div class="card-body">
+                                            {% include 'loading.html' with tabname='distrib-occupancy' %}
+                                            <div class="inner-content" id="inner-distrib-occupancy-content">
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <h5>Parking slot occupancy</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="text-start">
+                                                                    <img src="" alt="Distribution" id="distrib-occupancy-context" class="img-fluid distrib-img">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-30perc">
+                                                        <div class="card card-well">
+                                                            <div class="card-body">
+                                                                <form>
+                                                                    <div class="row my-1">
+                                                                        <div class="col">
+                                                                            {% include 'label.html' with category='parkingslot' capcategoryname='Parking slot' kind='select' %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row my-1">
+                                                                        <div class="col">
+                                                                            {% include 'selector.html' with category='parkingslot' categorynames='parking slots' %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row my-1">
+                                                                        <div class="col">
+                                                                            <div class="btn-group" role="group" aria-label="Parking legality" disabled>
+                                                                                <input type="radio" class="btn-check" name="occupancyoptions" id="distrib-occupancy-both" autocomplete="off" value="both" checked>
+                                                                                <label class="btn btn-outline-primary" for="distrib-occupancy-both">Both</label>
+
+                                                                                <input type="radio" class="btn-check" name="occupancyoptions" id="distrib-occupancy-legal" autocomplete="off" value="legal">
+                                                                                <label class="btn btn-outline-primary" for="distrib-occupancy-legal">Legal</label>
+
+                                                                                <input type="radio" class="btn-check" name="occupancyoptions" id="distrib-occupancy-illegal" autocomplete="off" value="illegal">
+                                                                                <label class="btn btn-outline-primary" for="distrib-occupancy-illegal">Illegal</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row my-1">
+                                                                        <div class="col">
+                                                                            {% include 'submitbutton.html' with category='occupancy' %}
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col">
+                                    <div class="card card-container">
+                                        <div class="card-body">
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div id="distrib-fines-header-context">
+                                                                <h5>Fines</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="text-start">
+                                                                <img src="" alt="Distribution" id="distrib-fines-context" class="img-fluid distrib-img">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-30perc"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

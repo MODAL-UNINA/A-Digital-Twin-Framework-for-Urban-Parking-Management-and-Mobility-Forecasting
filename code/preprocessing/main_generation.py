@@ -17,7 +17,7 @@ from data_processing.mobility_data_processing import (
     get_registry_by_key,
     preprocess_sensor_data,
 )
-from generation.models.models import Critic, Encoder, Generator, ModelArgs
+from common.generation.models import Critic, Encoder, Generator, ModelArgs
 from generation.utils import ScenarioType, add_conditions, grid_building
 from torch.utils.data import DataLoader, TensorDataset
 

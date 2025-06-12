@@ -1,0 +1,44 @@
+#map-context {
+    height: 720px;
+    width: 100%;
+}
+
+/* A simple CSS class for our square marker icon */
+.parking-slot-icon {
+    width: 8px;
+    height: 8px;
+    background-color: steelblue;
+    /* border: 1px solid #333;
+    border-radius: 1px; */
+}
+
+.legend {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 6px 10px;
+    border-radius: 4px;
+    line-height: 1.4;
+}
+
+.legend .legend-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.legend .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.legend .legend-color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+    border: 1px solid #333;
+    border-radius: 50%;
+}
+
+.legend .legend-color.square {
+    border-radius: 2px;
+}

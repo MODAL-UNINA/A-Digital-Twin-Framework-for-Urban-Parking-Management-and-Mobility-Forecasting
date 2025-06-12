@@ -1,0 +1,280 @@
+{% with tabname='whatif_2ndscenario' %}
+<div class="row">
+    <div class="col">
+        <div class="text-justify">
+            {% include 'whatif_2ndscenario_descr.html' %}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="tab-elem-content">
+            {% include 'loading.html' %}
+            <div class="inner-content" id="inner-{{ tabname }}-content">
+                <div class="row">
+                    <!-- Generation button area -->
+                    <div class="col-25perc">
+                        <div class="row my-2">
+                            <div class="col">
+                                <div class="card card-well">
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    {% include 'label.html' with category='zone' capcategoryname='Zone' kind='select' %}
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    {% include 'selector.html' with category='zone' categorynames='zones' %}
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    {% include 'label.html' with category='date' capcategoryname='Week date' kind='input' %}
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    <input id="{{ tabname }}-date-input" class="form-control" type="date" disabled></input>
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    <label for="{{ tabname }}-quantity-select" class="form-label">Additional parking slots:</label>
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    <input type="number" class="form-control" id="{{ tabname }}-quantity-select" value="150" min="30">
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    {% include 'submitbutton.html' with category='main' %}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="col">
+                                <div class="card card-well">
+                                    <div class="card-body">
+                                        <div class="row my-1">
+                                            <div class="col">
+                                                Map
+                                            </div>
+                                        </div>
+                                        <div class="row my-1">
+                                            <div class="col">
+                                                {% include 'minimap.html' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="whatif-header-content" id="{{ tabname }}-header-content">
+                            <h5>Waiting for the user to run a simulation ...</h5>
+                        </div>
+                        <div class="whatif-body-content" id="{{ tabname }}-body-content">
+                            <!-- General heatmap block -->
+                            <div class="row my-1">
+                                {% with tabname='whatif_2ndscenario-heatmap' %}
+                                <div class="col">
+                                    <div class="card card-container">
+                                        <div class="card-body">
+                                            <div class="row my-1">
+                                                <div class="col" style="position: relative;">
+                                                    {% include 'loading.html' %}
+                                                    <div class="inner-content" id="inner-{{ tabname }}-content">
+                                                        <div class="row my-1">
+                                                            <div class="col">
+                                                                <div id="{{ tabname }}-header-context">
+                                                                    <h5>Parking occupancy heatmap</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col">
+                                                                <div class="row my-1 align-items-center">
+                                                                    <div class="col-6">
+                                                                        <div class="row my-1">
+                                                                            <div class="col">
+                                                                                <h6>Real data</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row my-1">
+                                                                            <div class="col">
+                                                                                <div class="text-start">
+                                                                                    <img src="" alt="What-If 2nd scenario" id="{{ tabname }}-real-parkingslots-context" class="img-fluid whatif-img">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <div class="row my-1">
+                                                                            <div class="col">
+                                                                                <h6>Generated data</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row my-1">
+                                                                            <div class="col">
+                                                                                <div class="text-start">
+                                                                                    <img src="" alt="What-If 2nd scenario" id="{{ tabname }}-gen-parkingslots-context" class="img-fluid whatif-img">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-30perc">
+                                                                <div class="card card-well">
+                                                                    <div class="card-body">
+                                                                        <form>
+                                                                            <div class="row my-1">
+                                                                                <div class="col">
+                                                                                    {% include 'label.html' with category='date' capcategoryname='Week day' kind='input' %}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row my-1">
+                                                                                <div class="col">
+                                                                                    <input id="{{ tabname }}-date-input" class="form-control" type="date" disabled></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row my-1">
+                                                                                <div class="col">
+                                                                                    {% include 'submitbutton.html' with category='weekdate' %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endwith %}
+                            </div>
+                            <!-- General distribution block -->
+                            <div class="row my-1">
+                                {% with tabname='whatif_2ndscenario-distrib' %}
+                                <div class="col">
+                                    <div class="card card-container">
+                                        <div class="card-body">
+                                            <div class="row my-1">
+                                                <div class="col" style="position: relative;">
+                                                    {% include 'loading.html' %}
+                                                    <div class="inner-content" id="inner-{{ tabname }}-content">
+                                                        <div class="row my-1">
+                                                            <div class="col">
+                                                                <div id="{{ tabname }}-header-context">
+                                                                    <h5>Parking occupancy distribution</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col">
+                                                                <div class="row my-1 align-items-center">
+                                                                    <div class="col">
+                                                                        <div class="text-start">
+                                                                            <img src="" alt="What-If 2nd scenario" id="{{ tabname }}-hist-parkingslots-context" class="img-fluid whatif-img">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-5">
+                                                                        <div class="text-start">
+                                                                            <img src="" alt="What-If 2nd scenario" id="{{ tabname }}-radar-parkingslots-context" class="img-fluid whatif-img">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endwith %}
+                            </div>
+                            <!-- Plots block -->
+                            <div class="row my-1">
+                                {% with tabname='whatif_2ndscenario-plot' %}
+                                <div class="col">
+                                    <div class="card card-container">
+                                        <div class="card-body">
+                                            <div class="row my-1">
+                                                <div class="col" style="position: relative;">
+                                                    {% include 'loading.html' %}
+                                                    <div class="inner-content" id="inner-{{ tabname }}-content">
+                                                        <div class="row my-1">
+                                                            <div class="col">
+                                                                <div id="{{ tabname }}-title">
+                                                                    <h5>Parking occupancy cumulative time series</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col">
+                                                                <div class="row my-1 align-items-center">
+                                                                    <div class="col">
+                                                                        <div class="text-start">
+                                                                            <img src="" alt="What-If 2nd scenario" id="{{ tabname }}-plot-parkingslots-context" class="img-fluid whatif-img">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-30perc">
+                                                                <div class="card card-well">
+                                                                    <div class="card-body">
+                                                                        <form>
+                                                                            <div class="row my-1">
+                                                                                <div class="col">
+                                                                                    {% include 'label.html' with category='localzone' capcategoryname='Local zone' kind='select' %}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row my-1">
+                                                                                <div class="col">
+                                                                                    {% include 'selector.html' with category='localzone' categorynames='zones' %}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row my-1">
+                                                                                <div class="col">
+                                                                                    {% include 'submitbutton.html' with category='localzone' %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

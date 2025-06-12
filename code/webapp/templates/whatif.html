@@ -1,0 +1,56 @@
+{% with tabname='whatif' %}
+<div class="tab-container">
+    <div class="row">
+        <div class="col">
+            <div class="text-justify">
+                {% include 'whatif_descr.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="tabbable">
+                <!-- Navigation Menu -->
+                <ul class="nav nav-tabs" id="whatIfTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="whatif_1stscenario-tab" data-bs-toggle="tab" data-bs-target="#1stsimulscenario" type="button" role="tab" aria-controls="1stsimulscenario" aria-selected="false">First scenario
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="whatif_2ndscenario-tab" data-bs-toggle="tab" data-bs-target="#2ndsimulscenario" type="button" role="tab" aria-controls="2ndsimulscenario" aria-selected="false">Second scenario
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="whatif_3rdscenario-tab" data-bs-toggle="tab" data-bs-target="#3rdsimulscenario" type="button" role="tab" aria-controls="3rdsimulscenario" aria-selected="false">Third scenario
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content mt-4" id="whatIfTabContent">
+                    <!-- First scenario Tab -->
+                    <div class="tab-pane fade show active" id="1stsimulscenario" role="tabpanel" aria-labelledby="whatif_1stscenario-tab">
+                        <!-- First scenario scenario content -->
+                        {% include 'whatif_1stscenario.html' %}
+                    </div>
+                    <!-- Second scenario Tab -->
+                    <div class="tab-pane fade" id="2ndsimulscenario" role="tabpanel" aria-labelledby="whatif_2ndscenario-tab">
+                        <!-- Second scenario content -->
+                        {% include 'whatif_2ndscenario.html' %}
+                    </div>
+                    <!-- Third scenario Tab -->
+                    <div class="tab-pane fade" id="3rdsimulscenario" role="tabpanel" aria-labelledby="whatif_3rdscenario-tab">
+                        <!-- Third scenario content -->
+                        {% include 'whatif_3rdscenario.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

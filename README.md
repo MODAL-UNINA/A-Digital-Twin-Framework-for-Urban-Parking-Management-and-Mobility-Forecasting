@@ -24,19 +24,21 @@ The weather and air quality data, which are open source, can be downloaded from 
 
 ## Installation
 
-### 0. Requirements
-All the code can be executed through Docker with nvidia-container-toolkit set up.
+### 0. Prerequisites
+All the code can be executed through Docker with nvidia-container-toolkit set up. All has been tested with Ubuntu 22.04 LTS.
 
 ### 1. Build of the Docker Image
-Run the following command from the terminal:
+Run the following in a terminal at the top folder of the project:
 
 ```sh
 docker compose build
 ```
 
-this will install all the necessary for the execution of each step.
+this will build all the docker images necessary for the execution of each step.
 
-### 2. Running the newly generated image as container
+## Execution
+### 1. Preprocessing
+#### Starting the preprocessing container
 
 Run the following command from the terminal:
 
@@ -46,8 +48,7 @@ docker compose run --rm preprocessing
 
 this will start a new shell session in the generated container
 
-## Execution
-### 1. Forecasting
+#### 1. Forecasting
 
 From the shell, run the following for the forecasting:
 
@@ -55,16 +56,34 @@ From the shell, run the following for the forecasting:
 bash run_forecasting.sh
 ```
 
-### 2. Generation
+The results are saved in the results/preprocessing/forecasting directory.
+
+#### 2. Generation
 For the generation, run the following:
 
 ```sh
 bash run_generation.sh
 ```
 
-### 3. Scheduling
+The results are saved in the results/preprocessing/generation directory.
+
+#### 3. Scheduling
 For the agent scheduling for 12th January 2025, run the following:
 
 ```sh
 bash run_scheduling.sh 2025-01-12
 ```
+
+### 2. Web application
+#### Starting the web application container
+
+Run the following command from the terminal:
+
+```sh
+docker compose up -d webapp nginx
+```
+
+This will start the web application and the nginx server in detached mode. All the logs from the web application are stored in the logs/webapp folder and the nginx logs in the logs/nginx folder.
+
+#### Accessing the Web Interface
+Open a web browser and navigate to: `http://localhost:8080`.

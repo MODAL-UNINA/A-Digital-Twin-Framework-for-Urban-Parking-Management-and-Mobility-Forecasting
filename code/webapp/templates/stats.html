@@ -1,0 +1,144 @@
+{% with tabname='stats' %}
+<div class="tab-container">
+    <div class="row">
+        <div class="col">
+            <div class="text-justify">
+                {% include 'stats_descr.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="tab-elem-content">
+                {% include 'loading.html' %}
+                <div class="inner-content" id="inner-stats-content">
+                    <div class="row">
+                        <!-- Main selection -->
+                        <div class="col-25perc sticky-top">
+                            <div class="row my-2">
+                                <div class="col">
+                                    <div class="card card-well">
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'label.html' with category='zone' capcategoryname='Zone' kind='select' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'selector.html' with category='zone' categorynames='zones' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'label.html' with category='date' capcategoryname='Week date' kind='input' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        <input id="{{ tabname }}-date-input" class="form-control" type="date" disabled></input>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'label.html' with category='hourslot' capcategoryname='Hour slot' kind='select' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'selector.html' with category='hourslot' categorynames='hour slots' %}
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col">
+                                                        {% include 'submitbutton.html' with category='main' %}
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-2">
+                                <div class="col">
+                                    <div class="card card-well">
+                                        <div class="card-body">
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    Map
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    {% include 'minimap.html' %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row my-1">
+                                <div class="col-6 p-1">
+                                    <div id="stats-img-rel-section">
+                                        <div class="card card-container">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5>Correlation Heatmap: <em>Abusivism Index</em> vs <em>Number of Fines</em> (relative)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="text-start">
+                                                            <img src="" alt="Statistics" id="stats-img-rel-context" class="img-fluid stats-img">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 p-1">
+                                    <div id="stats-img-abs-section">
+                                        <div class="card card-container">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5>Correlation Heatmap: <em>Abusivism Index</em> vs <em>Number of Fines</em> (absolute)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="text-start">
+                                                            <img src="" alt="Statistics" id="stats-img-abs-context" class="img-fluid stats-img">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col">
+                                    <div class="text-start" id="stats-info-content">
+                                        <h5>Loading statistics ...</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

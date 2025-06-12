@@ -22,7 +22,7 @@ from data_processing.mobility_data_processing import (
     generate_road_data,
     preprocess_sensor_data,
 )
-from forecasting.models.models import ModelArgs, Modelcomplete
+from common.forecasting.models import ModelArgs, Modelcomplete
 from forecasting.utils import (
     FloatArray,
     create_datasets,
