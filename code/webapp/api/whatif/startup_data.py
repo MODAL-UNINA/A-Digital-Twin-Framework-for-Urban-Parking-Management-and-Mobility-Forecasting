@@ -15,7 +15,7 @@ STARTUP_DATA = StartupData(
         s_coordinates="s_coords.pkl",
         s_scaler="s_scaler.pkl",
         **{
-            "dict_data__" + scenario: f"{scenario}/input/dict_data.pkl.zip"
+            "dict_data__" + scenario: f"{scenario}/input/dict_data.pkl"
             for scenario in SCENARIOS
         },
         s_coordinates__2nd="2nd/input/s_coords.pkl",
