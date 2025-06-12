@@ -19,7 +19,7 @@ The authors would like to thank K-city srl company (https://www.k-city.eu/) for 
 The data used in this study are not publicly available due to confidentiality agreements and data protection policies. However, all relevant specifications regarding the data structure, format, and preprocessing procedures are provided in the accompanying GitHub repository. 
 To facilitate adaptation of the framework to new settings, we also provide sample files containing synthetic or anonymized single entries for each dataset. These examples demonstrate the required input format and schema for integration with the predictive, generative, and scheduling modules. For the agent shift calendar, a compiled and transformed version is included to illustrate how the anonymized data feeds into the optimization model.
 Researchers interested in accessing the data may contact the corresponding author to discuss potential access arrangements under appropriate confidentiality agreements.
-The weather and air quality data, which are open source, can be downloaded from \url{https://open-meteo.com}, while the Points of Interest data, obtained through OpenStreetMap, can be accessed at \url{https://www.openstreetmap.org}.
+The weather and air quality data, which are open source, can be downloaded from https://open-meteo.com, while the Points of Interest data, obtained through OpenStreetMap, can be accessed at https://www.openstreetmap.org.
 
 
 ## Installation
