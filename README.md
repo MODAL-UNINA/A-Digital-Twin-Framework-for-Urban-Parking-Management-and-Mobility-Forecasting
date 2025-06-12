@@ -28,13 +28,13 @@ The weather and air quality data, which are open source, can be downloaded from 
 All the code can be executed through Docker with nvidia-container-toolkit set up. All has been tested with Ubuntu 22.04 LTS.
 
 ### 1. Build of the Docker Image
-Create a file .env at the top folder of the project including the following:
+Create a file named `.env` at the main folder with the following content:
 
 ```
 PORT=8080
 ```
 
-Then run the following in a terminal at the top folder of the project:
+Then run the following in a terminal at the same folder:
 
 ```sh
 docker compose build
