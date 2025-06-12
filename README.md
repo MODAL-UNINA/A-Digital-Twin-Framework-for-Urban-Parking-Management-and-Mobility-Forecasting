@@ -31,10 +31,10 @@ For the execution of the scripts with a **CUDA-capable GPU**, we require the GPU
 ### 1. Data download
 The available data for the execution of all the scripts is provided at the following [link](https://drive.google.com/file/d/1NM-1uefJ4qnCHVwK-nNSkGSOA63hU5v8/view?usp=drive_link) (approximate size: 15 GB uncompressed).
 
-Download the zip file at the top folder of this project and unzip it with the following command from the terminal:
+Download the zip file in the `data/` folder and unzip it with the following command from the terminal:
 
 ```sh
-unzip Data_DTMOB.zip -d data/
+unzip Data_DTMOB.zip
 ```
 
 this will create two folders inside data: `preprocessing` and `webapp`.
